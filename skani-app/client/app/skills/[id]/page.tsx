@@ -30,8 +30,29 @@ export default async function SkillDetailPage({ params }: SkillDetailPageProps) 
 		);
 	}
 
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'SoftwareApplication',
+		name: skill.name,
+		description: skill.description,
+		applicationCategory: 'DeveloperApplication',
+		version: skill.latestVersion,
+		author: {
+			'@type': 'Person',
+			name: skill.author.name,
+			url: `https://github.com/${skill.author.github}`,
+		},
+	}
+
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<>
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+				}}
+			/>
+			<div className="container mx-auto px-4 py-8">
 			<article className="max-w-3xl mx-auto">
 				<div className="mb-8">
 					<div className="flex items-start justify-between mb-4">
@@ -118,5 +139,6 @@ export default async function SkillDetailPage({ params }: SkillDetailPageProps) 
 				</div>
 			</article>
 		</div>
+		</>
 	);
 }

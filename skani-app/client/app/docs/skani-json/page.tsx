@@ -31,8 +31,22 @@ const exampleConfig = `{
 }`;
 
 export default function SkaniJsonPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    name: 'skani.json Configuration - Skani',
+    description: 'The skani.json file is heart of Skani. It tracks which skills are installed and their exact versions, enabling reproducible environments.',
+  }
+
   return (
-    <div className="flex-1 max-w-[1600px] mx-auto w-full flex">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
+      <div className="flex-1 max-w-[1600px] mx-auto w-full flex">
       <DocsNav sections={docsNavSections} activeLink="/docs/skani-json" />
 
       <main className="flex-1 py-12 px-6 lg:px-16 max-w-4xl">
@@ -279,5 +293,6 @@ export default function SkaniJsonPage() {
         ]}
       />
     </div>
+    </>
   );
 }

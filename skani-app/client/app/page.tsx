@@ -41,8 +41,22 @@ export default function Home() {
 		},
 	];
 
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'WebPage',
+		name: 'Skani - Agent Skills Management',
+		description: 'Install, share, and manage agent skills across development environments with a single command.',
+	}
+
 	return (
-		<div className="min-h-screen bg-background text-foreground font-sans font-light leading-[1.6]">
+		<>
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+				}}
+			/>
+			<div className="min-h-screen bg-background text-foreground font-sans font-light leading-[1.6]">
 			<div className="container mx-auto px-10 max-w-[1400px]">
 				<LandingNav />
 				<Hero
@@ -78,5 +92,6 @@ export default function Home() {
 
 			<Footer />
 		</div>
+		</>
 	);
 }

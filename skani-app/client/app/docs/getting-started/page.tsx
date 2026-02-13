@@ -11,8 +11,22 @@ import { DocsFooter } from "@/components/docs/DocsFooter";
 import { docsNavSections } from "@/lib/docs-nav";
 
 export default function GettingStartedPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    name: 'Getting Started - Skani',
+    description: 'Skani is a tool for managing agent skills across development environments. This guide acts as initial extraction protocol to get your environment ready for skill preservation.',
+  }
+
   return (
-    <div className="flex-1 max-w-[1600px] mx-auto w-full flex">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
+      <div className="flex-1 max-w-[1600px] mx-auto w-full flex">
       <DocsNav sections={docsNavSections} activeLink="/docs/getting-started" />
 
       <main className="flex-1 py-12 px-6 lg:px-16 max-w-4xl">
@@ -119,5 +133,6 @@ Created skani.json manifest"
         ]}
       />
     </div>
+    </>
   );
 }

@@ -24,8 +24,22 @@ export default async function SkillsPage() {
 		);
 	}
 
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'WebPage',
+		name: 'Available Skills - Skani',
+		description: 'Browse and install agent skills from the central registry',
+	}
+
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<>
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+				}}
+			/>
+			<div className="container mx-auto px-4 py-8">
 			<div className="mb-8">
 				<h1 className="text-3xl font-bold mb-2">Available Skills</h1>
 				<p className="text-muted-foreground">
@@ -34,5 +48,6 @@ export default async function SkillsPage() {
 			</div>
 			<SkillGrid skills={skills} />
 		</div>
+		</>
 	);
 }

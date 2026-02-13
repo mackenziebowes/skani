@@ -62,8 +62,22 @@ const commands = [
 ];
 
 export default function CLICommandsPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    name: 'CLI Commands - Skani',
+    description: 'Reference for all available Skani CLI commands',
+  }
+
   return (
-    <div className="flex-1 max-w-[1600px] mx-auto w-full flex">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
+      <div className="flex-1 max-w-[1600px] mx-auto w-full flex">
       <DocsNav sections={docsNavSections} activeLink="/docs/cli-commands" />
 
       <main className="flex-1 py-12 px-6 lg:px-16 max-w-4xl">
@@ -113,5 +127,6 @@ export default function CLICommandsPage() {
 
       <OnThisPage sections={commands.map((cmd) => cmd.name)} />
     </div>
+    </>
   );
 }

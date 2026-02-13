@@ -23,8 +23,22 @@ const docsSections = [
 ];
 
 export default function DocsPage() {
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'WebPage',
+		name: 'Documentation - Skani',
+		description: 'Everything you need to know about using Skani',
+	}
+
 	return (
-		<div className="container mx-auto px-4 py-8">
+		<>
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+				}}
+			/>
+			<div className="container mx-auto px-4 py-8">
 			<article className="max-w-3xl mx-auto prose prose-neutral dark:prose-invert">
 				<h1>Documentation</h1>
 				<p className="lead">
@@ -54,5 +68,6 @@ export default function DocsPage() {
 				</div>
 			</article>
 		</div>
+		</>
 	);
 }
