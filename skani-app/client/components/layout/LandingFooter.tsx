@@ -8,7 +8,7 @@ const footerLinks = {
   ],
   resources: [
     { label: "Documentation", href: "/docs" },
-    { label: "GitHub", href: "https://github.com/anomalyco/skani" },
+    { label: "GitHub", href: "https://github.com/mackenziebowes/skani" },
     { label: "Community", href: "#" },
   ],
   legal: [

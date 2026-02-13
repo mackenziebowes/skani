@@ -26,7 +26,7 @@ export function Header() {
             Docs
           </Link>
           <a
-            href="https://github.com/anomalyco/skani"
+            href="https://github.com/mackenziebowes/skani"
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-foreground transition-colors"
