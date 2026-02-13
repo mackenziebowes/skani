@@ -11,10 +11,23 @@ export default async function SkillDetailPage({ params }: SkillDetailPageProps) 
 	const { id } = await params;
 	
 	let skill;
+	let error = null;
+	
 	try {
 		skill = await fetchSkill(id);
-	} catch {
-		notFound();
+	} catch (e) {
+		error = e;
+	}
+
+	if (error || !skill) {
+		return (
+			<div className="container mx-auto px-4 py-8">
+				<h1 className="text-3xl font-bold mb-2">Skill Not Found</h1>
+				<p className="text-muted-foreground">
+					The skills registry is temporarily unavailable. Check back soon!
+				</p>
+			</div>
+		);
 	}
 
 	return (
