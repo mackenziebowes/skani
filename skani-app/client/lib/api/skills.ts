@@ -1,9 +1,7 @@
 import { SkillMetadata, SkillSearchResult } from "../types/skill";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3050";
-
 export async function fetchSkills(): Promise<SkillSearchResult[]> {
-	const response = await fetch(`${API_BASE}/api/skills`);
+	const response = await fetch("/api/skills");
 	if (!response.ok) {
 		throw new Error("Failed to fetch skills");
 	}
@@ -11,7 +9,7 @@ export async function fetchSkills(): Promise<SkillSearchResult[]> {
 }
 
 export async function fetchSkill(id: string): Promise<SkillMetadata> {
-	const response = await fetch(`${API_BASE}/api/skills/${id}`);
+	const response = await fetch(`/api/skills/${id}`);
 	if (!response.ok) {
 		throw new Error("Failed to fetch skill");
 	}
@@ -19,7 +17,7 @@ export async function fetchSkill(id: string): Promise<SkillMetadata> {
 }
 
 export async function searchSkills(query: string): Promise<SkillSearchResult[]> {
-	const response = await fetch(`${API_BASE}/api/skills/search?q=${encodeURIComponent(query)}`);
+	const response = await fetch(`/api/skills/search?q=${encodeURIComponent(query)}`);
 	if (!response.ok) {
 		throw new Error("Failed to search skills");
 	}
