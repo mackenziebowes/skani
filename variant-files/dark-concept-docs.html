@@ -1,0 +1,410 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Skani | Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet" vid="7">
+    <script src="https://cdn.tailwindcss.com/3.4.17" vid="8"></script>
+    <script vid="9">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#050505',
+                        card: '#0f0f0f',
+                        'amber-accent': '#D98324',
+                        'amber-dim': 'rgba(217, 131, 36, 0.1)',
+                        'glass-border': 'rgba(255, 255, 255, 0.1)',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'amber-glow': 'radial-gradient(circle at center, rgba(217, 131, 36, 0.15), transparent 70%)',
+                        'specimen-gradient': 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style vid="10">
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .glass-panel {
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .amber-text-glow {
+            text-shadow: 0 0 20px rgba(217, 131, 36, 0.5);
+        }
+
+        .code-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(217, 131, 36, 0.5), transparent);
+            opacity: 0.5;
+        }
+
+        .nav-item.active {
+            color: #D98324;
+            border-left-color: #D98324;
+        }
+
+        .step-number {
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .fossil-border {
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        .fossil-border::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 10px;
+            height: 10px;
+            border-bottom: 1px solid #D98324;
+            border-right: 1px solid #D98324;
+        }
+        .fossil-border::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 10px;
+            height: 10px;
+            border-top: 1px solid #D98324;
+            border-left: 1px solid #D98324;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background-color: #D98324;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen" vid="11">
+
+    
+    <nav class="sticky top-0 z-50 border-b border-glass-border bg-bg/80 backdrop-blur-md" vid="12">
+        <div class="max-w-[1600px] mx-auto px-6 h-20 flex justify-between items-center" vid="13">
+            <a href="#" class="font-serif text-2xl font-medium tracking-tight hover:text-amber-accent transition-colors" vid="14">Skani.</a>
+            
+            <div class="hidden md:flex items-center gap-8" vid="15">
+                <div class="flex items-center gap-6 text-sm text-gray-400" vid="16">
+                    <a href="#" class="text-white" vid="17">Documentation</a>
+                    <a href="#" class="hover:text-white transition-colors" vid="18">Registry</a>
+                    <a href="#" class="hover:text-white transition-colors" vid="19">Pricing</a>
+                </div>
+                <div class="w-px h-4 bg-gray-800" vid="20"></div>
+                <a href="#" class="text-sm text-white hover:text-amber-accent transition-colors" vid="21">Login</a>
+                <a href="#" class="text-sm bg-white text-black px-4 py-2 rounded-full hover:bg-amber-accent hover:text-white transition-all" vid="22">
+                    GitHub <span class="ml-1 opacity-60" vid="23">↗</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-1 max-w-[1600px] mx-auto w-full flex" vid="24">
+        
+        
+        <aside class="w-64 hidden lg:block sticky top-20 h-[calc(100vh-80px)] border-r border-glass-border overflow-y-auto py-12 pr-6" vid="25">
+            <div class="space-y-10" vid="26">
+                
+                <div vid="27">
+                    <h5 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-6 pl-4" vid="28">Preservation</h5>
+                    <ul class="space-y-1" vid="29">
+                        <li vid="30"><a href="#" class="block pl-4 py-2 text-sm text-gray-400 hover:text-white border-l border-transparent hover:border-gray-700 transition-colors" vid="31">Introduction</a></li>
+                        <li vid="32"><a href="#" class="block pl-4 py-2 text-sm text-amber-accent font-medium border-l border-amber-accent bg-amber-dim/20 transition-colors nav-item active" vid="33">Getting Started</a></li>
+                        <li vid="34"><a href="#" class="block pl-4 py-2 text-sm text-gray-400 hover:text-white border-l border-transparent hover:border-gray-700 transition-colors" vid="35">Core Concepts</a></li>
+                        <li vid="36"><a href="#" class="block pl-4 py-2 text-sm text-gray-400 hover:text-white border-l border-transparent hover:border-gray-700 transition-colors" vid="37">Architecture</a></li>
+                    </ul>
+                </div>
+
+                <div vid="38">
+                    <h5 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-6 pl-4" vid="39">Excavation</h5>
+                    <ul class="space-y-1" vid="40">
+                        <li vid="41"><a href="#" class="block pl-4 py-2 text-sm text-gray-400 hover:text-white border-l border-transparent hover:border-gray-700 transition-colors" vid="42">Skill Manifests</a></li>
+                        <li vid="43"><a href="#" class="block pl-4 py-2 text-sm text-gray-400 hover:text-white border-l border-transparent hover:border-gray-700 transition-colors" vid="44">CLI Reference</a></li>
+                        <li vid="45"><a href="#" class="block pl-4 py-2 text-sm text-gray-400 hover:text-white border-l border-transparent hover:border-gray-700 transition-colors" vid="46">Configuration</a></li>
+                    </ul>
+                </div>
+
+                <div vid="47">
+                    <h5 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-6 pl-4" vid="48">Registry</h5>
+                    <ul class="space-y-1" vid="49">
+                        <li vid="50"><a href="#" class="block pl-4 py-2 text-sm text-gray-400 hover:text-white border-l border-transparent hover:border-gray-700 transition-colors" vid="51">Publishing</a></li>
+                        <li vid="52"><a href="#" class="block pl-4 py-2 text-sm text-gray-400 hover:text-white border-l border-transparent hover:border-gray-700 transition-colors" vid="53">Security</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </aside>
+
+        
+        <main class="flex-1 py-12 px-6 lg:px-16 max-w-4xl" vid="54">
+            
+            
+            <div class="flex items-center gap-2 text-xs font-mono text-gray-500 mb-8" vid="55">
+                <span vid="56">DOCS</span>
+                <span vid="57">/</span>
+                <span vid="58">PRESERVATION</span>
+                <span vid="59">/</span>
+                <span class="text-amber-accent" vid="60">GETTING STARTED</span>
+            </div>
+
+            <div class="relative" vid="61">
+                
+                <div class="absolute -top-20 -left-20 w-64 h-64 bg-amber-accent/10 blur-[100px] rounded-full pointer-events-none" vid="62"></div>
+
+                <h1 class="font-serif text-5xl md:text-6xl mb-6 relative z-10" vid="63">Getting Started</h1>
+                <p class="text-lg text-gray-400 font-light leading-relaxed max-w-2xl relative z-10" vid="64">
+                    Skani is a tool for managing agent skills across development environments. 
+                    This guide acts as the initial extraction protocol to get your environment ready for skill preservation.
+                </p>
+            </div>
+
+            
+            <div class="mt-16 mb-20" vid="65">
+                <h2 class="font-serif text-2xl mb-8 flex items-center gap-4" vid="66">
+                    <span class="w-px h-6 bg-amber-accent" vid="67"></span>
+                    Prerequisites
+                </h2>
+                
+                <div class="glass-panel p-8 rounded-sm fossil-border" vid="68">
+                    <p class="text-gray-400 mb-6 font-light" vid="69">
+                        Before extracting intelligence, ensure your environment meets the minimum biological requirements. 
+                        Skani requires one of the following runtimes to be fossilized in your system path:
+                    </p>
+                    <div class="flex gap-4" vid="70">
+                        <div class="flex-1 bg-white/5 border border-white/10 p-4 flex items-center justify-between group hover:border-amber-accent/50 transition-colors cursor-default" vid="71">
+                            <span class="font-mono text-sm text-gray-300" vid="72">Bun</span>
+                            <span class="text-xs text-amber-accent/60 group-hover:text-amber-accent" vid="73">v1.0+</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 font-serif italic" vid="74">or</div>
+                        <div class="flex-1 bg-white/5 border border-white/10 p-4 flex items-center justify-between group hover:border-amber-accent/50 transition-colors cursor-default" vid="75">
+                            <span class="font-mono text-sm text-gray-300" vid="76">Node.js</span>
+                            <span class="text-xs text-amber-accent/60 group-hover:text-amber-accent" vid="77">v18.0+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <section class="relative border-l border-gray-800 ml-4 md:ml-0 pl-8 md:pl-12 space-y-20 pb-20" vid="78">
+                
+                
+                <div class="absolute -left-[5px] top-0 w-[9px] h-[9px] bg-gray-800 rounded-full" vid="79"></div>
+
+                
+                <div class="relative group" vid="80">
+                    <div class="absolute -left-[41px] md:-left-[57px] top-2 w-[17px] h-[17px] rounded-full border border-gray-700 bg-bg flex items-center justify-center group-hover:border-amber-accent transition-colors" vid="81">
+                        <div class="w-1.5 h-1.5 bg-amber-accent rounded-full opacity-0 group-hover:opacity-100 transition-opacity" vid="82"></div>
+                    </div>
+                    
+                    <h3 class="font-serif text-3xl mb-4 flex items-baseline gap-4" vid="83">
+                        <span class="font-mono text-sm text-amber-accent opacity-60" vid="84">01.</span>
+                        Initialize a Project
+                    </h3>
+                    <p class="text-gray-400 font-light mb-6 max-w-xl" vid="85">
+                        Run the following command in your project directory to create a <code class="text-xs border border-gray-700 bg-gray-900 px-1.5 py-0.5 rounded text-gray-300" vid="86">skani.json</code> file. This acts as the amber casing for your project's skills.
+                    </p>
+
+                    <div class="code-container bg-[#0a0a0a] border border-gray-800 rounded-lg p-6 font-mono text-sm shadow-2xl" vid="87">
+                        <div class="flex items-center gap-2 mb-4 opacity-30" vid="88">
+                            <div class="w-2.5 h-2.5 rounded-full bg-white" vid="89"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-white" vid="90"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-white" vid="91"></div>
+                        </div>
+                        <div class="flex gap-3 text-gray-300" vid="92">
+                            <span class="text-amber-accent select-none" vid="93">➜</span>
+                            <span class="text-gray-500 select-none" vid="94">~</span>
+                            <span vid="95">npx skani init my-project</span>
+                        </div>
+                        <div class="mt-2 text-gray-500 select-none" vid="96">
+                            <span class="text-green-500" vid="97">✔</span> Project initialized in ./my-project<br vid="98">
+                            <span class="text-green-500" vid="99">✔</span> Created skani.json manifest
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="relative group" vid="100">
+                    <div class="absolute -left-[41px] md:-left-[57px] top-2 w-[17px] h-[17px] rounded-full border border-gray-700 bg-bg flex items-center justify-center group-hover:border-amber-accent transition-colors" vid="101">
+                        <div class="w-1.5 h-1.5 bg-amber-accent rounded-full opacity-0 group-hover:opacity-100 transition-opacity" vid="102"></div>
+                    </div>
+
+                    <h3 class="font-serif text-3xl mb-4 flex items-baseline gap-4" vid="103">
+                        <span class="font-mono text-sm text-amber-accent opacity-60" vid="104">02.</span>
+                        Install a Skill
+                    </h3>
+                    <p class="text-gray-400 font-light mb-6 max-w-xl" vid="105">
+                        Install skills directly from GitHub repositories. The skill is pulled, verified, and preserved within your manifest.
+                    </p>
+
+                    <div class="space-y-4" vid="106">
+                        
+                        <div class="code-container bg-[#0a0a0a] border border-gray-800 rounded-lg p-4 font-mono text-sm hover:border-gray-700 transition-colors" vid="107">
+                            <div class="flex justify-between items-center mb-2" vid="108">
+                                <span class="text-xs text-gray-600 uppercase tracking-wider" vid="109">Install Latest</span>
+                                <button class="text-gray-600 hover:text-white transition-colors" onclick="navigator.clipboard.writeText('npx skani install owner/repo')" vid="110">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vid="111"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" vid="112"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" vid="113"></path></svg>
+                                </button>
+                            </div>
+                            <div class="flex gap-3 text-gray-300" vid="114">
+                                <span class="text-amber-accent select-none" vid="115">➜</span>
+                                <span vid="116">npx skani install owner/repo</span>
+                            </div>
+                        </div>
+
+                        
+                        <div class="code-container bg-[#0a0a0a] border border-gray-800 rounded-lg p-4 font-mono text-sm hover:border-gray-700 transition-colors" vid="117">
+                            <div class="flex justify-between items-center mb-2" vid="118">
+                                <span class="text-xs text-gray-600 uppercase tracking-wider" vid="119">Specific Version</span>
+                            </div>
+                            <div class="flex gap-3 text-gray-300" vid="120">
+                                <span class="text-amber-accent select-none" vid="121">➜</span>
+                                <span vid="122">npx skani install owner/repo<span class="text-amber-accent" vid="123">@v1.2.3</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="relative group" vid="124">
+                    <div class="absolute -left-[41px] md:-left-[57px] top-2 w-[17px] h-[17px] rounded-full border border-gray-700 bg-bg flex items-center justify-center group-hover:border-amber-accent transition-colors" vid="125">
+                        <div class="w-1.5 h-1.5 bg-amber-accent rounded-full opacity-0 group-hover:opacity-100 transition-opacity" vid="126"></div>
+                    </div>
+
+                    <h3 class="font-serif text-3xl mb-4 flex items-baseline gap-4" vid="127">
+                        <span class="font-mono text-sm text-amber-accent opacity-60" vid="128">03.</span>
+                        List Installed Skills
+                    </h3>
+                    <p class="text-gray-400 font-light mb-6 max-w-xl" vid="129">
+                        View all preserved specimens in your current environment.
+                    </p>
+
+                    <div class="code-container bg-[#0a0a0a] border border-gray-800 rounded-lg p-6 font-mono text-sm shadow-2xl relative overflow-hidden group-hover:shadow-amber-900/10 transition-shadow" vid="130">
+                        
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-b from-amber-accent/5 to-transparent transform rotate-45 translate-x-32 -translate-y-32 pointer-events-none" vid="131"></div>
+
+                        <div class="flex gap-3 text-gray-300 mb-3" vid="132">
+                            <span class="text-amber-accent select-none" vid="133">➜</span>
+                            <span vid="134">npx skani list</span>
+                        </div>
+                        <div class="pl-6 border-l border-gray-800 ml-1.5 py-1" vid="135">
+                            <div class="flex justify-between text-gray-400 text-xs mb-2 uppercase tracking-widest border-b border-gray-800 pb-1 w-full max-w-md" vid="136">
+                                <span vid="137">Skill</span>
+                                <span vid="138">Version</span>
+                            </div>
+                            <div class="flex justify-between text-gray-300 w-full max-w-md" vid="139">
+                                <span vid="140">vision-core</span>
+                                <span class="text-amber-accent" vid="141">v1.0.4</span>
+                            </div>
+                            <div class="flex justify-between text-gray-300 w-full max-w-md" vid="142">
+                                <span vid="143">speech-synth</span>
+                                <span class="text-amber-accent" vid="144">v2.1.0</span>
+                            </div>
+                            <div class="flex justify-between text-gray-500 w-full max-w-md italic mt-2 text-xs" vid="145">
+                                <span vid="146">2 skills fossilized.</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 text-gray-300 mt-4" vid="147">
+                            <span class="text-amber-accent select-none" vid="148">➜</span>
+                            <span class="terminal-cursor" vid="149"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            
+            <div class="border-t border-glass-border pt-12 flex justify-between items-center" vid="150">
+                <a href="#" class="group" vid="151">
+                    <div class="text-xs font-mono text-gray-500 mb-1 group-hover:text-amber-accent transition-colors" vid="152">PREVIOUS</div>
+                    <div class="font-serif text-xl" vid="153">Introduction</div>
+                </a>
+                <a href="#" class="group text-right" vid="154">
+                    <div class="text-xs font-mono text-gray-500 mb-1 group-hover:text-amber-accent transition-colors" vid="155">NEXT</div>
+                    <div class="font-serif text-xl" vid="156">Skill Manifests →</div>
+                </a>
+            </div>
+
+        </main>
+
+        
+        <aside class="hidden xl:block w-64 sticky top-20 h-[calc(100vh-80px)] py-12 pr-12" vid="157">
+            <h5 class="text-xs font-mono uppercase tracking-widest text-gray-500 mb-6" vid="158">On this page</h5>
+            <ul class="space-y-3 text-sm border-l border-gray-800 pl-4" vid="159">
+                <li vid="160"><a href="#" class="text-amber-accent block hover:translate-x-1 transition-transform" vid="161">Prerequisites</a></li>
+                <li vid="162"><a href="#" class="text-gray-500 hover:text-white block hover:translate-x-1 transition-transform" vid="163">1. Initialize</a></li>
+                <li vid="164"><a href="#" class="text-gray-500 hover:text-white block hover:translate-x-1 transition-transform" vid="165">2. Install Skill</a></li>
+                <li vid="166"><a href="#" class="text-gray-500 hover:text-white block hover:translate-x-1 transition-transform" vid="167">3. List Skills</a></li>
+            </ul>
+        </aside>
+
+    </div>
+
+    
+    <footer class="border-t border-glass-border py-12 mt-auto bg-black relative z-10" vid="168">
+        <div class="max-w-[1600px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6" vid="169">
+            <div class="text-gray-600 text-sm" vid="170">
+                © 2024 Skani Labs. Preserving the future.
+            </div>
+            <div class="flex gap-6 text-sm font-mono text-gray-500" vid="171">
+                <a href="#" class="hover:text-amber-accent transition-colors" vid="172">STATUS</a>
+                <a href="#" class="hover:text-amber-accent transition-colors" vid="173">TWITTER</a>
+                <a href="#" class="hover:text-amber-accent transition-colors" vid="174">DISCORD</a>
+            </div>
+        </div>
+    </footer>
+
+
+</body></html>

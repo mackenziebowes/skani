@@ -1,0 +1,398 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Skani - Agent Skill Manifest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet" vid="7">
+    <style vid="8">
+        :root {
+            --color-primary: #8B4513; 
+            --color-accent: #D2691E;
+            --color-bg: #FFF8DC;
+            --font-main: 'Zilla Slab', serif;
+            --spacing-unit: 24px;
+            --border-width: 1px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-primary);
+            font-family: var(--font-main);
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        
+        h1, h2, h3, h4 {
+            font-weight: 500;
+            line-height: 1.1;
+            color: var(--color-accent);
+        }
+
+        h1 {
+            font-size: 5rem;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--spacing-unit);
+        }
+
+        h2 {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-unit);
+        }
+
+        h3 {
+            font-size: 2rem;
+            margin-bottom: calc(var(--spacing-unit) / 2);
+        }
+
+        p {
+            font-size: 1.125rem;
+            max-width: 32ch;
+            font-weight: 400;
+            color: var(--color-primary);
+        }
+
+        .mono {
+            font-family: 'Zilla Slab', serif; 
+            font-style: italic;
+        }
+
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-unit);
+        }
+
+        .hr-line {
+            width: 100%;
+            height: var(--border-width);
+            background-color: var(--color-accent);
+            margin: var(--spacing-unit) 0;
+            transform-origin: left;
+            animation: drawLine 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            opacity: 0.5;
+        }
+
+        .circle-num {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: var(--border-width) solid var(--color-accent);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            margin-bottom: var(--spacing-unit);
+            font-weight: 500;
+            color: var(--color-accent);
+        }
+
+        
+        header {
+            padding: var(--spacing-unit) 0;
+            border-bottom: var(--border-width) solid var(--color-accent);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--color-accent);
+        }
+
+        .nav-links a {
+            color: var(--color-primary);
+            text-decoration: none;
+            margin-left: calc(var(--spacing-unit) * 1.5);
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--color-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        
+        .hero {
+            padding: calc(var(--spacing-unit) * 4) 0;
+            min-height: 90vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(var(--spacing-unit) * 2);
+            align-items: start;
+        }
+
+        .hero-content {
+            padding-right: var(--spacing-unit);
+        }
+
+        .hero-visual {
+            border-left: var(--border-width) solid var(--color-accent);
+            padding-left: calc(var(--spacing-unit) * 2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-unit);
+            display: block;
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        
+        .cli-block {
+            margin-top: calc(var(--spacing-unit) * 3);
+            border: var(--border-width) solid var(--color-accent);
+            padding: var(--spacing-unit);
+            position: relative;
+        }
+
+        .cli-block::before {
+            content: 'TERMINAL';
+            position: absolute;
+            top: -12px;
+            left: 16px;
+            background: var(--color-bg);
+            padding: 0 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-accent);
+        }
+
+        .command {
+            font-family: 'Zilla Slab', monospace;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--color-primary);
+        }
+
+        .prompt-char {
+            user-select: none;
+            color: var(--color-accent);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.5rem;
+            background-color: var(--color-accent);
+            animation: blink 1s step-end infinite;
+        }
+
+        
+        .features {
+            padding: calc(var(--spacing-unit) * 4) 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: calc(var(--spacing-unit) * 2);
+        }
+
+        .feature-card {
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+
+        .feature-title {
+            margin-top: calc(var(--spacing-unit) / 2);
+            font-size: 2.25rem;
+            line-height: 1;
+        }
+
+        
+        .manifesto {
+            border-top: var(--border-width) solid var(--color-accent);
+            padding: calc(var(--spacing-unit) * 4) 0;
+            margin-top: calc(var(--spacing-unit) * 4);
+        }
+
+        .manifesto-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: var(--spacing-unit);
+        }
+
+        .large-quote {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            font-style: italic;
+            color: var(--color-accent);
+        }
+
+        
+        footer {
+            border-top: var(--border-width) solid var(--color-accent);
+            padding: calc(var(--spacing-unit) * 2) 0;
+            margin-top: calc(var(--spacing-unit) * 4);
+            display: flex;
+            justify-content: space-between;
+            color: var(--color-accent);
+            font-size: 0.875rem;
+        }
+
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes drawLine {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            h1 { font-size: 3.5rem; }
+            .hero { grid-template-columns: 1fr; }
+            .hero-visual { border-left: none; border-top: 1px solid var(--color-accent); padding-left: 0; padding-top: var(--spacing-unit); }
+            .grid-3 { grid-template-columns: 1fr; }
+            .manifesto-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body vid="9">
+
+    <div class="container" vid="10">
+        <header vid="11">
+            <nav vid="12">
+                <div class="logo" vid="13">skani_v1.0</div>
+                <div class="nav-links" vid="14">
+                    <a href="#" vid="15">Documentation</a>
+                    <a href="#" vid="16">Registry</a>
+                    <a href="#" vid="17">GitHub</a>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero" vid="18">
+            <div class="hero-content" vid="19">
+                <span class="tagline" vid="20">The Amber of Intelligence</span>
+                <div class="hr-line" style="margin-top: 1rem;" vid="21"></div>
+                <h1 vid="22">Preserve brilliance. <br vid="23">Install anywhere.</h1>
+                <p vid="24">
+                    Agent skills are often fleeting thoughts in a REPL. Skani captures them like prehistoric amber, preserving the logic perfectly so it can rise again in any development environment.
+                </p>
+                
+                <div class="cli-block" vid="25">
+                    <div class="command" vid="26">
+                        <span class="prompt-char" vid="27">$</span>
+                        skani install agent-manifest
+                        <span class="cursor" vid="28"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual" vid="29">
+                <div vid="30">
+                    <div class="circle-num" vid="31">1</div>
+                    <h3 vid="32">Capture</h3>
+                    <p vid="33">Wrap your agent's capabilities in a portable manifest. Define dependencies, logic, and context in a single immutable file.</p>
+                </div>
+                <div class="hr-line" vid="34"></div>
+                <div vid="35">
+                    <div class="circle-num" vid="36">2</div>
+                    <h3 vid="37">Resurrect</h3>
+                    <p vid="38">Deploy complex behaviors to new environments with zero configuration drift. The logic remains pristine.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" vid="39">
+            <div class="grid-3" vid="40">
+                <div class="feature-card" vid="41">
+                    <div class="hr-line" vid="42"></div>
+                    <div class="circle-num" vid="43">A</div>
+                    <h3 class="feature-title" vid="44">Fossilized <br vid="45">Dependency</h3>
+                    <br vid="46">
+                    <p vid="47">Never lose the context of a skill. Skani locks versions and environmental variables into the manifest itself.</p>
+                </div>
+
+                <div class="feature-card" vid="48">
+                    <div class="hr-line" vid="49"></div>
+                    <div class="circle-num" vid="50">B</div>
+                    <h3 class="feature-title" vid="51">Genetic <br vid="52">Distribution</h3>
+                    <br vid="53">
+                    <p vid="54">Share skills across teams like biological traits. Inherit capabilities from remote registries with a simple pull.</p>
+                </div>
+
+                <div class="feature-card" vid="55">
+                    <div class="hr-line" vid="56"></div>
+                    <div class="circle-num" vid="57">C</div>
+                    <h3 class="feature-title" vid="58">Single <br vid="59">Command</h3>
+                    <br vid="60">
+                    <p vid="61">Complexity reduced to a keystroke. Manage the entire lifecycle of an AI agent's skill set without leaving the terminal.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="manifesto" vid="62">
+            <div class="manifesto-layout" vid="63">
+                <div vid="64">
+                    <span class="tagline" vid="65">The Philosophy</span>
+                </div>
+                <div vid="66">
+                    <p class="large-quote" vid="67">
+                        "Code is ephemeral. Logic should be eternal. We build the tools to ensure your agent's best thoughts are never lost to the void."
+                    </p>
+                    <br vid="68"><br vid="69">
+                    <p vid="70">— The Skani Protocol</p>
+                </div>
+            </div>
+        </section>
+
+        <footer vid="71">
+            <div vid="72">© 2023 Skani Systems</div>
+            <div vid="73">Build 1.0.4</div>
+        </footer>
+    </div>
+
+
+</body></html>

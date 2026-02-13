@@ -1,0 +1,25 @@
+{
+	"name": "skani",
+	"version": "0.1.0",
+	"module": "src/index.ts",
+	"type": "module",
+	"bin": {
+		"skani": "./src/index.ts"
+	},
+	"scripts": {
+		"dev": "bun run src/index.ts"
+	},
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@clack/prompts": "^0.11.0",
+		"@types/figlet": "^1.7.0",
+		"figlet": "^1.9.4"
+	},
+	"keywords": ["agent", "skills", "cli", "bun"],
+	"license": "MIT"
+}

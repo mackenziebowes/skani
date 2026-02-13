@@ -1,0 +1,638 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Skani | Agent Skill Manifest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet" vid="7">
+    <style vid="8">
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0f0f0f;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --accent-amber: #D98324;
+            --accent-amber-glow: rgba(217, 131, 36, 0.25);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-weight: 300;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .serif {
+            font-family: var(--font-serif);
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+        }
+
+        .hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        
+        nav {
+            padding: 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            letter-spacing: -0.02em;
+            font-weight: 500;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .menu-trigger {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .menu-line {
+            width: 24px;
+            height: 1px;
+            background: white;
+        }
+
+        
+        .hero {
+            padding: 120px 0 160px;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .hero-content h1 {
+            font-size: 88px;
+            line-height: 0.95;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .hero-content h1 span.italic {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .hero-desc {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin-bottom: 60px;
+        }
+
+        .pill-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 32px;
+            border: 1px solid white;
+            border-radius: 100px;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pill-button:hover {
+            background: white;
+            color: black;
+        }
+
+        .pill-button span {
+            margin-right: 12px;
+        }
+
+        
+        .artifact-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .amber-glow {
+            position: absolute;
+            width: 300px;
+            height: 400px;
+            background: radial-gradient(circle at center, var(--accent-amber), transparent 70%);
+            opacity: 0.4;
+            filter: blur(80px);
+            z-index: 0;
+            animation: pulse 6s infinite ease-in-out;
+        }
+
+        .artifact-card {
+            position: relative;
+            z-index: 1;
+            width: 380px;
+            background: rgba(20, 20, 20, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+            transform: rotate(-2deg);
+            transition: transform 0.5s ease;
+        }
+
+        .artifact-card:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .code-block {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        .code-comment { color: var(--accent-amber); opacity: 0.8; }
+        .code-keyword { color: #fff; font-weight: bold; }
+        .code-string { color: #aaa; }
+
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .spec-item {
+            padding: 40px;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .spec-item:last-child { border-right: none; }
+
+        .spec-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        .spec-value {
+            font-family: var(--font-serif);
+            font-size: 24px;
+        }
+
+        
+        .manifesto {
+            padding: 160px 0;
+        }
+
+        .manifesto-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 120px;
+        }
+
+        .sticky-title {
+            position: sticky;
+            top: 40px;
+            height: fit-content;
+        }
+
+        .sticky-title h2 {
+            font-family: var(--font-serif);
+            font-size: 56px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 120px;
+        }
+
+        .feature-item {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        .feature-image {
+            width: 100%;
+            height: 400px;
+            background: #111;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            mix-blend-mode: screen;
+            filter: grayscale(100%) sepia(20%) hue-rotate(320deg); 
+        }
+        
+        .amber-tint {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(217, 131, 36, 0.2), transparent);
+        }
+
+        .feature-text h3 {
+            font-family: var(--font-serif);
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .feature-text p {
+            color: var(--text-secondary);
+            max-width: 400px;
+        }
+
+        
+        .terminal-section {
+            padding: 120px 0;
+            background: #0a0a0a;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .terminal-container {
+            max-width: 680px;
+            margin: 60px auto 0;
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: left;
+            box-shadow: 0 0 60px rgba(217, 131, 36, 0.05);
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            opacity: 0.5;
+        }
+
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #333; }
+
+        .cli-input {
+            font-family: var(--font-mono);
+            color: white;
+            font-size: 16px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .prompt { color: var(--accent-amber); }
+        .cursor {
+            width: 8px;
+            height: 18px;
+            background: var(--accent-amber);
+            animation: blink 1s step-end infinite;
+        }
+
+        
+        footer {
+            padding: 80px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand h4 {
+            font-family: var(--font-serif);
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+
+        .footer-col h5 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent-amber);
+        }
+
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 0.3; }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+            .hero-content h1 { font-size: 64px; }
+            .artifact-container { height: 400px; }
+            .manifesto-layout { grid-template-columns: 1fr; }
+            .specs-grid { grid-template-columns: 1fr 1fr; }
+            .spec-item:nth-child(2) { border-right: none; }
+            .spec-item { border-bottom: 1px solid var(--border-color); }
+            .spec-item:nth-last-child(-n+2) { border-bottom: none; }
+        }
+
+    </style>
+</head>
+<body vid="9">
+
+    <div class="container" vid="10">
+        <nav class="hidden" vid="11">
+            <div class="logo" vid="12">Skani.</div>
+            <div class="nav-links" vid="13">
+                <a href="#" class="nav-link" vid="14">Documentation</a>
+                <a href="#" class="nav-link" vid="15">Registry</a>
+                <a href="#" class="nav-link" vid="16">Pricing</a>
+                <a href="#" class="nav-link" vid="17">Login</a>
+            </div>
+            <div class="menu-trigger" vid="18">
+                
+            </div>
+        </nav>
+
+        <section class="hero" vid="19">
+            <div class="hero-grid" vid="20">
+                <div class="hero-content hidden" vid="21">
+                    <h1 class="serif" vid="22">Preserving<br vid="23">Intelligence <span class="italic" vid="24">(in code)</span></h1>
+                    <p class="hero-desc" vid="25">
+                        Fleeting genius, captured like amber. Install, share, and manage agent skill manifests across development environments with absolute precision.
+                    </p>
+                    <a href="#" class="pill-button" vid="26">
+                        <span vid="27">Get Started</span>
+                        <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg" vid="28">
+                            <path d="M12.5 1L17 6M17 6L12.5 11M17 6H1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" vid="29"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="artifact-container hidden" vid="30">
+                    <div class="amber-glow" vid="31"></div>
+                    <div class="artifact-card" vid="32">
+                        <div class="code-block" vid="33">
+                            <div class="code-comment" vid="34">// Agent Skill Manifest: v1.0.4</div>
+                            <div class="code-comment" vid="35">// Captured: 2024-05-12</div>
+                            <br vid="36">
+                            <div vid="37"><span class="code-keyword" vid="38">skill</span> <span class="code-string" vid="39">"vision-core"</span> {</div>
+                            <div style="padding-left: 20px" vid="40">capabilities: [<span class="code-string" vid="41">"ocr"</span>, <span class="code-string" vid="42">"detect"</span>]</div>
+                            <div style="padding-left: 20px" vid="43">runtime: <span class="code-string" vid="44">"python-3.11"</span></div>
+                            <div style="padding-left: 20px" vid="45">memory_alloc: <span class="code-string" vid="46">"512mb"</span></div>
+                            <div style="padding-left: 20px" vid="47">persistence: <span class="code-keyword" vid="48">true</span></div>
+                            <div vid="49">}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    
+    <div class="specs-grid hidden" vid="50">
+        <div class="spec-item" vid="51">
+            <span class="spec-label" vid="52">Version</span>
+            <span class="spec-value" vid="53">0.9.4 (Beta)</span>
+        </div>
+        <div class="spec-item" vid="54">
+            <span class="spec-label" vid="55">Registry</span>
+            <span class="spec-value" vid="56">Decentralized</span>
+        </div>
+        <div class="spec-item" vid="57">
+            <span class="spec-label" vid="58">Runtime</span>
+            <span class="spec-value" vid="59">Universal</span>
+        </div>
+        <div class="spec-item" vid="60">
+            <span class="spec-label" vid="61">Latency</span>
+            <span class="spec-value" vid="62">&lt; 20ms</span>
+        </div>
+    </div>
+
+    <div class="container" vid="63">
+        <section class="manifesto" vid="64">
+            <div class="manifesto-layout" vid="65">
+                <div class="sticky-title hidden" vid="66">
+                    <h2 vid="67">The Fossilization<br vid="68">of Function</h2>
+                    <p style="color: var(--text-secondary); margin-top: 20px;" vid="69">
+                        Knowledge should rise again. Skani ensures your agent's capabilities are portable, immutable, and ready for resurrection in any environment.
+                    </p>
+                </div>
+
+                <div class="feature-list" vid="70">
+                    
+                    <div class="feature-item hidden" vid="71">
+                        <div class="feature-image" vid="72">
+                            
+                            <div class="amber-tint" vid="73"></div>
+                            <svg width="100%" height="100%" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" vid="74">
+                                <rect x="50" y="50" width="100" height="100" stroke="#333" fill="none" vid="75"></rect>
+                                <rect x="80" y="80" width="100" height="100" stroke="#333" fill="none" vid="76"></rect>
+                                <rect x="110" y="110" width="100" height="100" stroke="#444" fill="none" vid="77"></rect>
+                                <circle cx="250" cy="250" r="80" stroke="rgba(217, 131, 36, 0.5)" stroke-width="1" fill="none" vid="78"></circle>
+                            </svg>
+                        </div>
+                        <div class="feature-text" vid="79">
+                            <h3 vid="80">Immutable Snapshots</h3>
+                            <p vid="81">Once defined, a skill is frozen in time. Like an insect in amber, it remains perfectly preserved until called upon by a new agent instance.</p>
+                        </div>
+                    </div>
+
+                    
+                    <div class="feature-item hidden" vid="82">
+                        <div class="feature-image" vid="83">
+                            <div class="amber-tint" vid="84"></div>
+                            <svg width="100%" height="100%" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" vid="85">
+                                <line x1="0" y1="200" x2="400" y2="200" stroke="#222" vid="86"></line>
+                                <line x1="200" y1="0" x2="200" y2="400" stroke="#222" vid="87"></line>
+                                <path d="M 50 200 Q 200 50 350 200 T 50 200" stroke="rgba(255,255,255,0.1)" fill="none" vid="88"></path>
+                                <path d="M 50 200 Q 200 350 350 200 T 50 200" stroke="rgba(217, 131, 36, 0.3)" fill="none" vid="89"></path>
+                            </svg>
+                        </div>
+                        <div class="feature-text" vid="90">
+                            <h3 vid="91">Universal Resurrection</h3>
+                            <p vid="92">Deploy skill manifests to local, staging, or production environments with zero dependency drift. What worked there, works here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    
+    <section class="terminal-section hidden" vid="93">
+        <div class="container" vid="94">
+            <h2 class="serif" style="font-size: 42px;" vid="95">One Command.</h2>
+            <p style="color: var(--text-secondary); margin-top: 16px;" vid="96">The complexity of agent orchestration, reduced to a single line.</p>
+            
+            <div class="terminal-container" vid="97">
+                <div class="terminal-header" vid="98">
+                    <div class="dot" style="background: #ff5f56" vid="99"></div>
+                    <div class="dot" style="background: #ffbd2e" vid="100"></div>
+                    <div class="dot" style="background: #27c93f" vid="101"></div>
+                </div>
+                <div class="cli-input" vid="102">
+                    <span class="prompt" vid="103">➜</span>
+                    <span vid="104">skani install @latest/vision-core --global</span>
+                    <span class="cursor" vid="105"></span>
+                </div>
+                <div style="margin-top: 12px; color: #666; font-family: var(--font-mono); font-size: 14px; text-align: left;" vid="106">
+                    [success] Manifest retrieved (48ms)<br vid="107">
+                    [linking] Integrating dependencies...<br vid="108">
+                    [ready] Agent skill active.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer vid="109">
+        <div class="container" vid="110">
+            <div class="footer-grid" vid="111">
+                <div class="footer-brand" vid="112">
+                    <h4 vid="113">Skani</h4>
+                    <p style="font-size: 14px; color: var(--text-secondary); margin-top: -10px;" vid="114">
+                        © 2024 Skani Labs.<br vid="115">
+                        Preserving the future of AI.
+                    </p>
+                </div>
+                <div class="footer-col" vid="116">
+                    <h5 vid="117">Product</h5>
+                    <ul vid="118">
+                        <li vid="119"><a href="#" vid="120">CLI Tool</a></li>
+                        <li vid="121"><a href="#" vid="122">Manifest Standard</a></li>
+                        <li vid="123"><a href="#" vid="124">Enterprise</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" vid="125">
+                    <h5 vid="126">Resources</h5>
+                    <ul vid="127">
+                        <li vid="128"><a href="#" vid="129">Documentation</a></li>
+                        <li vid="130"><a href="#" vid="131">GitHub</a></li>
+                        <li vid="132"><a href="#" vid="133">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" vid="134">
+                    <h5 vid="135">Legal</h5>
+                    <ul vid="136">
+                        <li vid="137"><a href="#" vid="138">Privacy</a></li>
+                        <li vid="139"><a href="#" vid="140">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script vid="141">
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.hidden').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+
+</body></html>
