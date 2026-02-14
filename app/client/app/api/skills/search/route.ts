@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { searchSkills } from "@/lib/data/mock-skills";
+import { searchSkillsReal } from "@/lib/data/mock-skills";
 
 export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
@@ -9,6 +9,6 @@ export async function GET(request: Request) {
 		return NextResponse.json({ error: "Query parameter 'q' is required" }, { status: 400 });
 	}
 	
-	const results = searchSkills(query);
+	const results = await searchSkillsReal(query);
 	return NextResponse.json(results);
 }

@@ -38,7 +38,7 @@ export const infoCommand: Command = {
 			console.log(`  ID:          ${skill.id}`);
 			console.log(`  Latest:      ${skill.latestVersion}`);
 			console.log(`  Author:      ${skill.author.name} (@${skill.author.github})`);
-			console.log(`  Repository:  github:${skill.repository.owner}/${skill.repository.repo}`);
+			console.log(`  Repository:  https://github.com/${skill.repository.owner}/${skill.repository.repo}`);
 			console.log(`  Tags:        ${skill.tags.join(", ")}`);
 			console.log("\n  DESCRIPTION");
 			console.log(`  ${skill.description}`);

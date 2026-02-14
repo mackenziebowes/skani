@@ -248,3 +248,62 @@ export function getAllSkills(): SkillSearchResult[] {
 		tags: skill.tags,
 	}));
 }
+
+import { getTopSkills } from "./skills-dot-sh";
+
+let cachedRealSkills: SkillMetadata[] | null = null;
+let cacheTimestamp: number = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+export async function getSkillsWithRealData(): Promise<SkillMetadata[]> {
+	const now = Date.now();
+	
+	if (cachedRealSkills && (now - cacheTimestamp) < CACHE_DURATION) {
+		return cachedRealSkills;
+	}
+	
+	try {
+		const topSkills = await getTopSkills(50);
+		cachedRealSkills = [...topSkills, ...mockSkills];
+		cacheTimestamp = now;
+		return cachedRealSkills;
+	} catch (error) {
+		console.error("Failed to fetch real skills data:", error);
+		return mockSkills;
+	}
+}
+
+export async function searchSkillsReal(query: string): Promise<SkillSearchResult[]> {
+	const skills = await getSkillsWithRealData();
+	const lowerQuery = query.toLowerCase();
+	
+	return skills
+		.filter(skill => 
+			skill.name.toLowerCase().includes(lowerQuery) ||
+			skill.description.toLowerCase().includes(lowerQuery) ||
+			skill.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
+		)
+		.map(skill => ({
+			id: skill.id,
+			name: skill.name,
+			description: skill.description,
+			latestVersion: skill.latestVersion,
+			tags: skill.tags,
+		}));
+}
+
+export async function getAllSkillsReal(): Promise<SkillSearchResult[]> {
+	const skills = await getSkillsWithRealData();
+	return skills.map(skill => ({
+		id: skill.id,
+		name: skill.name,
+		description: skill.description,
+		latestVersion: skill.latestVersion,
+		tags: skill.tags,
+	}));
+}
+
+export async function getSkillByIdReal(id: string): Promise<SkillMetadata | null> {
+	const skills = await getSkillsWithRealData();
+	return skills.find(skill => skill.id === id) || null;
+}

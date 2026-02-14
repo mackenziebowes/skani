@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getAllSkills } from "@/lib/data/mock-skills";
+import { getAllSkillsReal } from "@/lib/data/mock-skills";
 
 export async function GET() {
-	const skills = getAllSkills();
+	const skills = await getAllSkillsReal();
 	return NextResponse.json(skills);
 }

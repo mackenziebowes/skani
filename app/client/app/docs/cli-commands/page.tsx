@@ -14,10 +14,11 @@ const commands = [
   },
   {
     name: "install",
-    usage: "skani install <skill>[@version]",
+    usage: "skani install <GitHub URL>",
     description:
-      "Install a skill from GitHub. Supports two formats: (1) owner/repo[@version] for root-level skills, or (2) github:owner/repo/path[@version] for skills in subdirectories.",
-    example: "skani install github:mackenziebowes/temple/templates/agent-skills/nextjs-seo-housekeeping@main",
+      "Install a skill from GitHub using a full URL to skill directory.",
+    example:
+      "skani install https://github.com/obra/superpowers/tree/main/skills/test-driven-development",
   },
   {
     name: "install-all",
@@ -120,7 +121,7 @@ export default function CLICommandsPage() {
 
           <DocsFooter
             previous={{ title: "Quick Start", href: "/docs/getting-started" }}
-            next={{ title: "GitHub Links", href: "/docs/github-links" }}
+            next={{ title: "skani.json", href: "/docs/skani-json" }}
           />
         </article>
       </main>

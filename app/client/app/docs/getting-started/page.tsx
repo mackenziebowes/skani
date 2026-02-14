@@ -15,7 +15,7 @@ export default function GettingStartedPage() {
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
     name: 'Getting Started - Skani',
-    description: 'Skani is a tool for managing agent skills across development environments. This guide acts as initial extraction protocol to get your environment ready for skill preservation.',
+    description: 'Setup guide for Skani - a tool for managing agent skills across development environments.',
   }
 
   return (
@@ -46,8 +46,8 @@ export default function GettingStartedPage() {
             </h1>
             <p className="text-lg text-gray-400 font-light leading-relaxed max-w-2xl relative z-10">
               Skani is a tool for managing agent skills across development
-              environments. This guide acts as initial extraction protocol to
-              get your environment ready for skill preservation.
+              environments. This guide will help you set up your environment
+              and install your first skill.
             </p>
           </div>
 
@@ -56,9 +56,9 @@ export default function GettingStartedPage() {
 
             <GlassPanel>
               <p className="text-gray-400 mb-6 font-light">
-                Before extracting intelligence, ensure your environment meets
-                the minimum biological requirements. Skani requires one of the
-                following runtimes to be fossilized in your system path:
+                Before using Skani, your local environment needs to be prepared.
+                Skani requires one of the following runtimes to be in your
+                system path:
               </p>
               <div className="flex gap-4">
                 <VersionRequirementCard name="Bun" version="v1.0+" />
@@ -79,7 +79,7 @@ export default function GettingStartedPage() {
                 <code className="text-xs border border-gray-700 bg-gray-900 px-1.5 py-0.5 rounded text-gray-300">
                   skani.json
                 </code>{" "}
-                file. This acts as amber casing for your project&apos;s skills.
+                file. This file tracks your project&apos;s installed skills.
               </p>
 
               <CodeBlock
@@ -91,26 +91,19 @@ Created skani.json manifest"
 
             <Step number="02" title="Install a Skill">
               <p className="text-gray-400 font-light mb-6 max-w-xl">
-                Install skills directly from GitHub repositories. The skill is
-                pulled, verified, and preserved within your manifest.
+                Install skills directly from GitHub by providing the full URL
+                to the skill directory.
               </p>
 
-              <div className="space-y-4">
-                <CodeBlock
-                  code="npx skani install owner/repo"
-                  showDots={false}
-                />
-                <p>You can also specify a version:</p>
-                <CodeBlock
-                  code="npx skani install owner/repo@v1.2.3"
-                  showDots={false}
-                />
-              </div>
+              <CodeBlock
+                code="npx skani install https://github.com/obra/superpowers/tree/main/skills/test-driven-development"
+                showDots={false}
+              />
             </Step>
 
             <Step number="03" title="List Installed Skills">
               <p className="text-gray-400 font-light mb-6 max-w-xl">
-                View all preserved specimens in your current environment.
+                View all installed skills in your current environment.
               </p>
 
               <CodeBlock code="npx skani list" showDots={false} />

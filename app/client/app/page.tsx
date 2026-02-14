@@ -23,7 +23,7 @@ export default function Home() {
 		{ type: "comment" as const, content: "# Install a skill" },
 		{ type: "plain" as const, content: "" },
 		{ type: "keyword" as const, content: "npx" },
-		{ type: "string" as const, content: " skani install owner/repo" },
+		{ type: "string" as const, content: " skani install https://github.com/obra/superpowers/tree/main/skills/test-driven-development" },
 	];
 
 	const features = [
@@ -81,7 +81,7 @@ export default function Home() {
 				<TerminalSection
 					heading="One Command."
 					subtitle="The complexity of agent orchestration, reduced to a single line."
-					command="skani install @latest/vision-core --global"
+					command="skani install https://github.com/obra/superpowers/tree/main/skills/test-driven-development"
 					output={[
 						"[success] Manifest retrieved (48ms)",
 						"[linking] Integrating dependencies...",
