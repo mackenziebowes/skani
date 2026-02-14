@@ -8,25 +8,24 @@ import log from "../core/log";
 export const installCommand: Command = {
 	name: "install",
 	description: "Install a skill from GitHub",
-	instructions: "Usage: skani install <owner/repo>[@version] or skani install github:owner/repo[@version][/path]",
+	instructions: "Usage: skani install https://github.com/owner/repo/tree/branch/path/to/skill",
 	run: async (args: string[]) => {
 		const skillRef = args[0];
 		
 		if (!skillRef) {
 			log.single.err("INSTALL", "No skill specified");
-			log.single.info("USAGE", "skani install <owner/repo>[@version]");
+			log.single.info("USAGE", "skani install https://github.com/owner/repo/tree/branch/path/to/skill");
 			process.exit(1);
 		}
 		
 		const parsed = parseSkillRef(skillRef);
 		if (!parsed) {
 			log.single.err("INSTALL", "Invalid skill reference format");
-			log.single.info("FORMAT", "owner/repo, owner/repo@version, or github:owner/repo/path@version");
+			log.single.info("FORMAT", "https://github.com/owner/repo/tree/branch/path/to/skill");
 			process.exit(1);
 		}
 		
-		const { owner, repo, ref, path } = parsed;
-		const skillId = `${owner}-${repo}`.toLowerCase();
+		const { owner, repo, ref, path, skillId, url } = parsed;
 		
 		let skaniFile = await readSkaniFile();
 		if (!skaniFile) {
@@ -54,6 +53,7 @@ export const installCommand: Command = {
 		}
 		
 		const source: SkillSource = {
+			url: url.replace(/\/tree\/[^/]+/, `/tree/${version || "main"}`),
 			type: "github",
 			owner,
 			repo,
