@@ -139,25 +139,35 @@ export function parseSkillId(input: string): { owner: string; repo: string; skil
 }
 
 export function parseSkillRef(input: string): { owner: string; repo: string; ref: string | undefined; path: string } | null {
-	const githubMatch = input.match(/^github:([^/]+)\/([^/@]+)(?:@([^/]+))?(?:\/(.+))?$/);
+	const githubMatch = input.match(/^github:([^/]+)\/([^/]+)(?:@([^/]+))?(?:\/(.+))?$/);
 	if (githubMatch && githubMatch[1] && githubMatch[2]) {
-		return { 
-			owner: githubMatch[1], 
-			repo: githubMatch[2], 
-			ref: githubMatch[3], 
-			path: githubMatch[4] || ".claude/skills" 
+		let ref = githubMatch[3];
+		let path = githubMatch[4] || ".claude/skills";
+
+		// Handle @version at the end of path
+		if (!ref && path.includes("@")) {
+			const pathParts = path.split("@");
+			path = pathParts[0];
+			ref = pathParts[1];
+		}
+
+		return {
+			owner: githubMatch[1],
+			repo: githubMatch[2],
+			ref,
+			path
 		};
 	}
-	
-	const simpleMatch = input.match(/^([^/]+)\/([^/@]+)(?:@([^/]+))?$/);
+
+	const simpleMatch = input.match(/^([^/]+)\/([^/]+)(?:@([^/]+))?$/);
 	if (simpleMatch && simpleMatch[1] && simpleMatch[2]) {
-		return { 
-			owner: simpleMatch[1], 
-			repo: simpleMatch[2], 
-			ref: simpleMatch[3], 
-			path: ".claude/skills" 
+		return {
+			owner: simpleMatch[1],
+			repo: simpleMatch[2],
+			ref: simpleMatch[3],
+			path: ".claude/skills"
 		};
 	}
-	
+
 	return null;
 }
