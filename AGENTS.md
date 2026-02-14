@@ -6,14 +6,14 @@ A monorepo for managing agent skills across development environments.
 
 ```
 skani/
-├── skani-cli/          # Bun-based CLI tool
+├── cli/                 # Bun-based CLI tool
 │   └── src/
 │       ├── index.ts    # Entry point
 │       ├── commands/   # CLI commands
 │       ├── core/       # Core utilities (github, file handling, logging)
 │       └── types/      # TypeScript types
 │
-├── skani-app/          # Full-stack Next.js + Hono app
+├── app/                 # Full-stack Next.js + Hono app
 │   ├── client/         # Next.js 16 frontend
 │   │   ├── app/        # App Router pages
 │   │   ├── components/ # React components (ShadCN UI + Custom Layout + Docs)
@@ -29,10 +29,10 @@ skani/
 
 ## Commands
 
-### CLI (skani-cli)
+### CLI (cli/)
 
 ```bash
-cd skani-cli
+cd cli
 bun install
 bun run dev --help           # Show help
 bun run dev init my-project  # Initialize skani.json
@@ -40,18 +40,18 @@ bun run dev install owner/repo  # Install a skill
 bun run dev list             # List installed skills
 ```
 
-### App Server (skani-app/server)
+### App Server (app/server)
 
 ```bash
-cd skani-app/server
+cd app/server
 bun install
 bun run dev  # Starts on port 3050
 ```
 
-### App Client (skani-app/client)
+### App Client (app/client)
 
 ```bash
-cd skani-app/client
+cd app/client
 bun install
 bun run dev  # Starts on port 3000
 ```
@@ -157,6 +157,10 @@ export default function DocsPage() {
 - Skills are installed to `.claude/skills/<skill-id>/` in the target project
 - The `skani.json` file tracks installed skills with pinned versions
 - The website currently uses mock data; GitHub integration can be added later
-- Custom amber theme defined in `app/globals.css`
+- Custom amber theme defined in `app/client/app/globals.css`
 - Landing page at `/landing` showcases full component library
 - Docs pages use new extracted components with fossil/preservation design language
+
+## Agent Rules
+
+**Keep this file accurate:** If you cannot find a file at an expected path, search for it first. Once found, immediately update AGENTS.md with the correct location to prevent future agents from hitting the same issue.
