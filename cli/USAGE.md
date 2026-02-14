@@ -7,7 +7,7 @@ Skani CLI manages agent skills for AI coding assistants. Skills are installed to
 ## Getting Started
 
 ```bash
-cd skani-cli
+cd cli
 bun install
 bun run dev --help    # Show all commands
 ```
@@ -30,10 +30,10 @@ bun run dev --help    # Show all commands
 ## Install Reference Formats
 
 ```bash
-skani install owner/repo                    # Latest tag or main
-skani install owner/repo@v1.2.0             # Specific version
-skani install github:owner/repo             # Explicit GitHub
-skani install github:owner/repo/skills/foo  # Subdirectory path
+skani install https://github.com/owner/repo/tree/main/.claude/skills/foo
+skani install https://github.com/owner/repo/tree/v1.2.0/.claude/skills/foo  # Specific version in URL
+skani install https://github.com/owner/repo/tree/main/.claude/skills/foo@v1.2.0  # Override version
+skani install https://github.com/owner/repo/blob/main/.claude/skills/foo/SKILL.md  # Blob URL (extracts directory)
 ```
 
 ## Files Created
@@ -52,15 +52,16 @@ Tracks project skills:
   },
   "skills": [
     {
-      "id": "owner-repo",
+      "id": "owner-repo-foo",
       "name": "repo",
       "version": "v1.0.0",
       "source": {
+        "url": "https://github.com/owner/repo/tree/v1.0.0/.claude/skills/foo",
         "type": "github",
         "owner": "owner",
         "repo": "repo",
         "ref": "v1.0.0",
-        "path": ""
+        "path": ".claude/skills/foo"
       },
       "installedAt": "2024-01-01T00:00:00.000Z"
     }
