@@ -4,16 +4,10 @@ const footerLinks = {
   product: [
     { label: "CLI Tool", href: "/docs/cli-commands" },
     { label: "Manifest Standard", href: "/docs/skani-json" },
-    { label: "Enterprise", href: "#" },
   ],
   resources: [
     { label: "Documentation", href: "/docs" },
     { label: "GitHub", href: "https://github.com/mackenziebowes/skani" },
-    { label: "Community", href: "#" },
-  ],
-  legal: [
-    { label: "Privacy", href: "#" },
-    { label: "Terms", href: "#" },
   ],
 };
 
@@ -24,11 +18,11 @@ const thisYear = () => {
 
 export function LandingFooter() {
   return (
-    <footer className="border-t border-border py-20">
-      <div className="container mx-auto px-10">
-        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-10">
+    <footer className="border-t border-border py-12 lg:py-20">
+      <div className="container mx-auto px-6 lg:px-10">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr] gap-10">
           <div>
-            <h4 className="font-serif text-3xl mb-6">Skani</h4>
+            <h4 className="font-serif text-2xl lg:text-3xl mb-6">Skani</h4>
             <p className="text-sm text-muted-foreground -mt-2">
               © {thisYear()} Mackenzie Bowes.
               <br />
