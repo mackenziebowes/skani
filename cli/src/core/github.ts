@@ -1,5 +1,14 @@
 import type { SkillSource, SkillVersion, SkillMetadata } from "../types/skill";
 
+export interface ParsedSkillRef {
+	url: string;
+	owner: string;
+	repo: string;
+	ref: string;
+	path: string;
+	skillId: string;
+}
+
 const GITHUB_API_BASE = "https://api.github.com";
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com";
 
@@ -125,49 +134,75 @@ export async function checkSkillExists(source: SkillSource): Promise<boolean> {
 	}
 }
 
-export function parseSkillId(input: string): { owner: string; repo: string; skillId: string } | null {
-	const match = input.match(/^([^/]+)\/([^/]+)$/);
-	if (!match || !match[1] || !match[2]) {
+export function parseSkillRef(input: string): ParsedSkillRef | null {
+	let url: URL;
+	
+	let versionOverride: string | undefined;
+	const atIndex = input.lastIndexOf("@");
+	if (atIndex > 0 && !input.startsWith("http")) {
+		return null;
+	}
+	if (atIndex > 0 && input.startsWith("http")) {
+		versionOverride = input.slice(atIndex + 1);
+		input = input.slice(0, atIndex);
+	}
+	
+	try {
+		url = new URL(input);
+	} catch {
 		return null;
 	}
 	
-	const owner = match[1];
-	const repo = match[2];
-	const skillId = `${owner}-${repo}`.toLowerCase().replace(/[^a-z0-9-]/g, "-");
+	if (url.host !== "github.com" && url.host !== "www.github.com") {
+		return null;
+	}
 	
-	return { owner, repo, skillId };
+	const pathParts = url.pathname.split("/").filter(Boolean);
+	
+	if (pathParts.length < 2) {
+		return null;
+	}
+	
+	const owner = pathParts[0]!;
+	const repo = pathParts[1]!;
+	
+	if (pathParts.length === 2) {
+		return null;
+	}
+	
+	const type = pathParts[2];
+	if (type !== "tree" && type !== "blob") {
+		return null;
+	}
+	
+	if (pathParts.length < 5) {
+		return null;
+	}
+	
+	const ref = versionOverride || pathParts[3]!;
+	const skillPath = pathParts.slice(4).join("/");
+	
+	const finalPath = type === "blob" 
+		? skillPath.split("/").slice(0, -1).join("/")
+		: skillPath;
+	
+	if (!finalPath) {
+		return null;
+	}
+	
+	const pathSegments = finalPath.split("/");
+	const lastSegment = pathSegments[pathSegments.length - 1]!;
+	const skillId = `${owner}-${repo}-${lastSegment}`.toLowerCase();
+	
+	const normalizedUrl = `https://github.com/${owner}/${repo}/tree/${ref}/${finalPath}`;
+	
+	return {
+		url: normalizedUrl,
+		owner,
+		repo,
+		ref,
+		path: finalPath,
+		skillId,
+	};
 }
 
-export function parseSkillRef(input: string): { owner: string; repo: string; ref: string | undefined; path: string } | null {
-	const githubMatch = input.match(/^github:([^/]+)\/([^/]+)(?:@([^/]+))?(?:\/(.+))?$/);
-	if (githubMatch && githubMatch[1] && githubMatch[2]) {
-		let ref = githubMatch[3];
-		let path = githubMatch[4] || ".claude/skills";
-
-		// Handle @version at the end of path
-		if (!ref && path.includes("@")) {
-			const pathParts = path.split("@");
-			path = pathParts[0];
-			ref = pathParts[1];
-		}
-
-		return {
-			owner: githubMatch[1],
-			repo: githubMatch[2],
-			ref,
-			path
-		};
-	}
-
-	const simpleMatch = input.match(/^([^/]+)\/([^/]+)(?:@([^/]+))?$/);
-	if (simpleMatch && simpleMatch[1] && simpleMatch[2]) {
-		return {
-			owner: simpleMatch[1],
-			repo: simpleMatch[2],
-			ref: simpleMatch[3],
-			path: ".claude/skills"
-		};
-	}
-
-	return null;
-}
