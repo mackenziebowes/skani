@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-interface OpengraphProps {
+export interface OpengraphProps {
 	title: string
 	subtitle?: string
 	icon?: React.ReactNode
@@ -111,12 +111,11 @@ export async function generateOpengraphImage({
 					{subtitle && (
 						<div
 							style={{
-								fontSize: '28px',
+								fontSize: '20px',
 								color: '#888888',
 								marginTop: '16px',
 								letterSpacing: '0.01em',
 								textTransform: 'uppercase',
-								fontSize: '20px',
 								fontWeight: 400,
 							}}
 						>

@@ -39,6 +39,7 @@ export async function getTopSkills(limit: number = 20): Promise<SkillMetadata[]>
 	const skillsFromSh = await fetchSkillsFromSkillsDotSh();
 	
 	return skillsFromSh.slice(0, limit).map((skill) => {
+		const { rank: _rank } = skill;
 		const [owner, repo] = skill.ownerRepo.split("/");
 		
 		return {
