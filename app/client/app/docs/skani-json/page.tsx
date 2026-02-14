@@ -273,7 +273,7 @@ export default function SkaniJsonPage() {
           </div>
 
           <DocsFooter
-            previous={{ title: "CLI Commands", href: "/docs/cli-commands" }}
+            previous={{ title: "GitHub Links", href: "/docs/github-links" }}
             next={{ title: "Quick Start", href: "/docs/getting-started" }}
           />
         </article>
