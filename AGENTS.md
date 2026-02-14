@@ -164,3 +164,19 @@ export default function DocsPage() {
 ## Agent Rules
 
 **Keep this file accurate:** If you cannot find a file at an expected path, search for it first. Once found, immediately update AGENTS.md with the correct location to prevent future agents from hitting the same issue.
+
+**End of work workflow:** Before finishing any work session, always run in order:
+1. **Test** - Run tests to verify nothing is broken
+2. **Lint** - Run linter to catch style/issues
+3. **Build** - Run build to ensure compilation succeeds
+
+```bash
+# CLI
+cd cli && bun test && bun lint && bun build
+
+# App Client
+cd app/client && bun test && bun lint && bun run build
+
+# App Server
+cd app/server && bun test && bun lint && bun build
+```
