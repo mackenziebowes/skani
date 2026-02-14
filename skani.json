@@ -3,7 +3,36 @@
   "environment": {
     "name": "skani-project",
     "created": "2026-02-14T19:46:06.735Z",
-    "updated": "2026-02-14T19:46:06.735Z"
+    "updated": "2026-02-14T21:35:42.186Z"
   },
-  "skills": []
+  "skills": [
+    {
+      "id": "obra-superpowers-brainstorming",
+      "name": "superpowers",
+      "version": "main",
+      "source": {
+        "url": "https://github.com/obra/superpowers/tree/main/skills/brainstorming",
+        "type": "github",
+        "owner": "obra",
+        "repo": "superpowers",
+        "ref": "main",
+        "path": "skills/brainstorming"
+      },
+      "installedAt": "2026-02-14T21:21:57.998Z"
+    },
+    {
+      "id": "obra-superpowers-executing-plans",
+      "name": "superpowers",
+      "version": "main",
+      "source": {
+        "url": "https://github.com/obra/superpowers/tree/main/skills/executing-plans",
+        "type": "github",
+        "owner": "obra",
+        "repo": "superpowers",
+        "ref": "main",
+        "path": "skills/executing-plans"
+      },
+      "installedAt": "2026-02-14T21:35:41.735Z"
+    }
+  ]
 }
