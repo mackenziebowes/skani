@@ -1,4 +1,5 @@
 export interface SkillSource {
+	url: string;
 	type: "github";
 	owner: string;
 	repo: string;
