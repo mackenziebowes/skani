@@ -7,6 +7,7 @@ interface OpengraphProps {
 	size?: { width: number; height: number }
 	background?: string
 	accent?: string
+	showGrid?: boolean
 }
 
 export async function generateOpengraphImage({
@@ -16,6 +17,7 @@ export async function generateOpengraphImage({
 	size = { width: 1200, height: 630 },
 	background = '#050505',
 	accent = '#d98324',
+	showGrid = true,
 }: OpengraphProps) {
 	return new ImageResponse(
 		(
@@ -43,18 +45,20 @@ export async function generateOpengraphImage({
 					}}
 				/>
 
-				{/* Grid pattern overlay */}
-				<div
-					style={{
-						position: 'absolute',
-						inset: 0,
-						backgroundImage: `
-							linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-							linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)
-						`,
-						backgroundSize: '60px 60px',
-					}}
-				/>
+				{showGrid && (
+					/* Grid pattern overlay */
+					<div
+						style={{
+							position: 'absolute',
+							inset: 0,
+							backgroundImage: `
+								linear-gradient(to right, ${accent}08 1px, transparent 1px),
+								linear-gradient(to bottom, ${accent}08 1px, transparent 1px)
+							`,
+							backgroundSize: '40px 40px',
+						}}
+					/>
+				)}
 
 				{/* Decorative corners */}
 				<div

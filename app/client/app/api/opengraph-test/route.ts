@@ -8,12 +8,13 @@ export async function GET(request: NextRequest) {
 	const subtitle = searchParams.get('subtitle') || undefined
 	const accent = searchParams.get('accent') || '#d98324'
 	const background = searchParams.get('background') || '#050505'
-	const showGrid = searchParams.get('grid') === 'true'
+	const showGrid = searchParams.get('grid') !== 'false'
 
 	return generateOpengraphImage({
 		title,
 		subtitle,
 		accent,
 		background,
+		showGrid,
 	})
 }
