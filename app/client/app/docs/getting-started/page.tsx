@@ -5,10 +5,7 @@ import { Step } from "@/components/docs/Step";
 import { CodeBlock } from "@/components/docs/CodeBlock";
 import { GlassPanel } from "@/components/docs/GlassPanel";
 import { VersionRequirementCard } from "@/components/docs/VersionRequirementCard";
-import { OnThisPage } from "@/components/docs/OnThisPage";
-import { DocsNav } from "@/components/docs/DocsNav";
 import { DocsFooter } from "@/components/docs/DocsFooter";
-import { docsNavSections } from "@/lib/docs-nav";
 
 export default function GettingStartedPage() {
   const jsonLd = {
@@ -26,8 +23,6 @@ export default function GettingStartedPage() {
           __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
         }}
       />
-      <div className="flex-1 max-w-[1600px] mx-auto w-full flex">
-      <DocsNav sections={docsNavSections} activeLink="/docs/getting-started" />
 
       <main className="flex-1 py-12 px-6 lg:px-16 max-w-4xl">
         <article className="prose prose-neutral dark:prose-invert">
@@ -116,16 +111,6 @@ Created skani.json manifest"
           />
         </article>
       </main>
-
-      <OnThisPage
-        sections={[
-          "Prerequisites",
-          "1. Initialize a Project",
-          "2. Install a Skill",
-          "3. List Installed Skills",
-        ]}
-      />
-    </div>
     </>
   );
 }

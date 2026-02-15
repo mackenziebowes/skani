@@ -1,15 +1,13 @@
 import { Breadcrumbs } from "@/components/docs/Breadcrumbs";
 import { CodeBlock } from "@/components/docs/CodeBlock";
 import { OnThisPage } from "@/components/docs/OnThisPage";
-import { DocsNav } from "@/components/docs/DocsNav";
 import { DocsFooter } from "@/components/docs/DocsFooter";
-import { docsNavSections } from "@/lib/docs-nav";
 
 const kitCommands = [
   {
     name: "kit list",
     usage: "skani kit list",
-    description: "List all available kits in the current directory.",
+    description: "List all available kits in current directory.",
     example: "skani kit list",
   },
   {
@@ -24,7 +22,7 @@ const kitCommands = [
     name: "kit restore",
     usage: "skani kit restore",
     description:
-      "Restore skani.json from the most recent backup created by kit install.",
+      "Restore skani.json from most recent backup created by kit install.",
     example: "skani kit restore",
   },
 ];
@@ -45,14 +43,13 @@ export default function SkillKitsPage() {
           __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
         }}
       />
-      <div className="flex-1 max-w-[1600px] mx-auto w-full flex">
-      <DocsNav sections={docsNavSections} activeLink="/docs/skill-kits" />
 
       <main className="flex-1 py-12 px-6 lg:px-16 max-w-4xl">
         <article className="prose prose-neutral dark:prose-invert">
           <Breadcrumbs
             items={[
               { label: "DOCS" },
+              { label: "EXCAVATION" },
               { label: "REFERENCE" },
               { label: "SKILL KITS", active: true },
             ]}
@@ -78,7 +75,7 @@ export default function SkillKitsPage() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Creating a Kit</h2>
             <p className="text-gray-300 mb-4">
-              To create a skill kit, simply copy your existing <code className="bg-muted px-2 py-1 rounded">skani.json</code> file to a new file with the <code className="bg-muted px-2 py-1 rounded">.skani.json</code> extension:
+              To create a skill kit, simply copy your existing <code className="bg-muted px-2 py-1 rounded">skani.json</code> file to a new file with a <code className="bg-muted px-2 py-1 rounded">.skani.json</code> extension:
             </p>
             <CodeBlock code="cp skani.json my-kit.skani.json" showDots={false} />
             <p className="text-gray-300 mb-4 mt-4">
@@ -91,7 +88,7 @@ export default function SkillKitsPage() {
             <p className="text-gray-300 mb-4">
               Use the <code className="bg-muted px-2 py-1 rounded">kit install</code> command to install skills from a kit:
             </p>
-            
+
             <div className="space-y-6">
               {kitCommands.map((cmd) => (
                 <div
@@ -119,7 +116,7 @@ export default function SkillKitsPage() {
             <p className="text-gray-300 mb-4">
               The <code className="bg-muted px-2 py-1 rounded">kit install</code> command supports two installation modes:
             </p>
-            
+
             <div className="space-y-4">
               <div className="border border-gray-800 rounded-lg p-6">
                 <h4 className="text-lg font-semibold mb-2 text-amber-600">Merge Mode (Default)</h4>
@@ -128,7 +125,7 @@ export default function SkillKitsPage() {
                 </p>
                 <CodeBlock code="skani kit install my-kit" showDots={false} />
               </div>
-              
+
               <div className="border border-gray-800 rounded-lg p-6">
                 <h4 className="text-lg font-semibold mb-2 text-amber-600">Replace Mode</h4>
                 <p className="text-gray-300 mb-4">
@@ -194,18 +191,19 @@ export default function SkillKitsPage() {
         </article>
       </main>
 
-      <OnThisPage sections={[
-        "Overview",
-        "Creating a Kit",
-        "Installing a Kit",
-        "kit list",
-        "kit install",
-        "kit restore",
-        "Installation Modes",
-        "Backup & Restore",
-        "Example Kit",
-      ]} />
-    </div>
+      <OnThisPage
+        sections={[
+          "Overview",
+          "Creating a Kit",
+          "Installing a Kit",
+          "kit list",
+          "kit install",
+          "kit restore",
+          "Installation Modes",
+          "Backup & Restore",
+          "Example Kit",
+        ]}
+      />
     </>
   );
 }
