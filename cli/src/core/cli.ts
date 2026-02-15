@@ -4,6 +4,7 @@ import { config } from "../config";
 
 export type Command = {
   name: string;
+  subcommand?: string;
   description: string;
   instructions: string;
   run: (args: string[]) => Promise<void> | void;
@@ -12,7 +13,8 @@ export type Command = {
 const commands = new Map<string, Command>();
 
 export function registerCommand(cmd: Command) {
-  commands.set(cmd.name, cmd);
+  const key = cmd.subcommand ? `${cmd.name}:${cmd.subcommand}` : cmd.name;
+  commands.set(key, cmd);
 }
 
 export async function runCLI(argv = Bun.argv.slice(2)) {
@@ -32,11 +34,31 @@ export async function runCLI(argv = Bun.argv.slice(2)) {
       t: "Commands",
       m: "Available Commands",
     });
+    // Group commands by name
+    const grouped = new Map<string, Command[]>();
     for (const cmd of commands.values()) {
-      multiLog.push({
-        t: cmd.name,
-        m: `${cmd.description}\n  |->  [Instructions]: ${cmd.instructions}\n`,
-      });
+      if (!grouped.has(cmd.name)) {
+        grouped.set(cmd.name, []);
+      }
+      grouped.get(cmd.name)!.push(cmd);
+    }
+    
+    // Display commands
+    for (const [name, cmds] of grouped) {
+      const mainCmd = cmds[0];
+      if (mainCmd.subcommand) {
+        // Group of subcommands
+        multiLog.push({
+          t: name,
+          m: `${cmds.length} subcommand(s) available\n${cmds.map((c, i) => `  |->  [${c.subcommand}]: ${c.description}`).join('\n')}\n`,
+        });
+      } else {
+        // Simple command
+        multiLog.push({
+          t: name,
+          m: `${mainCmd.description}\n  |->  [Instructions]: ${mainCmd.instructions}\n`,
+        });
+      }
     }
     multiLog.push({
       t: "More Info",
@@ -63,14 +85,27 @@ export async function runCLI(argv = Bun.argv.slice(2)) {
     return;
   }
 
-  const command = commands.get(name);
+  let command: Command | undefined;
+  
+  // Try to find by exact match first (for simple commands like "install")
+  command = commands.get(name);
+  
+  // If not found and we have args, try subcommand lookup (for "kit list")
+  if (!command && args.length > 0) {
+    const subcommand = args[0];
+    const subcommandKey = `${name}:${subcommand}`;
+    command = commands.get(subcommandKey);
+  }
+  
   if (!command) {
     log.single.err("Command", "No Command Supplied");
     process.exit(1);
   }
 
   try {
-    await command.run(args);
+    // For subcommands, remove the subcommand from args
+    const runArgs = command.subcommand ? args.slice(1) : args;
+    await command.run(runArgs);
   } catch (err) {
     const multilog: any[] = [];
     multilog.push({
