@@ -7,6 +7,7 @@ import { removeCommand } from "./remove";
 import { searchCommand } from "./search";
 import { infoCommand } from "./info";
 import { updateCommand } from "./update";
+import { registerKitCommands } from "./kit";
 
 export function registerCommands() {
 	registerCommand(initCommand);
@@ -17,4 +18,5 @@ export function registerCommands() {
 	registerCommand(searchCommand);
 	registerCommand(infoCommand);
 	registerCommand(updateCommand);
+	registerKitCommands();
 }
