@@ -37,7 +37,7 @@ export async function generateOpengraphImage({
 				}}
 			>
 				{/* Background layers */}
-				<div style={{ position: 'absolute', inset: 0, zIndex: 0, display: 'none' }}>
+				<div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
 					{/* Amber glow gradient */}
 					<div
 						style={{
@@ -111,48 +111,39 @@ export async function generateOpengraphImage({
 					style={{
 						position: 'relative',
 						zIndex: 1,
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						gap: '24px',
 					}}
 				>
+					{icon && <div style={{ filter: 'drop-shadow(0 0 30px rgba(217,131,36,0.3))' }}>{icon}</div>}
+
 					<div
 						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							gap: '24px',
+							fontWeight: 700,
+							fontSize: '64px',
+							letterSpacing: '-0.02em',
+							textShadow: '0 0 40px rgba(217,131,36,0.2)',
 						}}
 					>
-						{icon && <div style={{ display: 'none' }}><div style={{ filter: 'drop-shadow(0 0 30px rgba(217,131,36,0.3))', display: 'block' }}>{icon}</div></div>}
-
-						<div style={{ display: 'none' }}>
-							<div
-								style={{
-									fontWeight: 700,
-									fontSize: '64px',
-									letterSpacing: '-0.02em',
-									textShadow: '0 0 40px rgba(217,131,36,0.2)',
-								}}
-							>
-								{title}
-							</div>
-						</div>
-
-						{subtitle && (
-							<div style={{ display: 'none' }}>
-								<div
-									style={{
-										fontSize: '20px',
-										color: '#888888',
-										marginTop: '16px',
-										letterSpacing: '0.01em',
-										textTransform: 'uppercase',
-										fontWeight: 400,
-									}}
-								>
-									{subtitle}
-								</div>
-							</div>
-						)}
+						{title}
 					</div>
+
+					{subtitle && (
+						<div
+							style={{
+								fontSize: '20px',
+								color: '#888888',
+								marginTop: '16px',
+								letterSpacing: '0.01em',
+								textTransform: 'uppercase',
+								fontWeight: 400,
+							}}
+						>
+							{subtitle}
+						</div>
+					)}
 				</div>
 			</div>
 		),
