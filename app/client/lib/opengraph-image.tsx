@@ -36,107 +36,124 @@ export async function generateOpengraphImage({
 					overflow: 'hidden',
 				}}
 			>
-				{/* Amber glow gradient */}
-				<div
-					style={{
-						position: 'absolute',
-						inset: 0,
-						background: `radial-gradient(circle at 30% 40%, ${accent}15 0%, transparent 50%)`,
-					}}
-				/>
-
-				{showGrid && (
-					/* Grid pattern overlay */
+				{/* Background layers */}
+				<div style={{ position: 'absolute', inset: 0, zIndex: 0, display: 'none' }}>
+					{/* Amber glow gradient */}
 					<div
 						style={{
 							position: 'absolute',
 							inset: 0,
-							backgroundImage: `
-								linear-gradient(to right, ${accent}08 1px, transparent 1px),
-								linear-gradient(to bottom, ${accent}08 1px, transparent 1px)
-							`,
-							backgroundSize: '40px 40px',
+							background: `radial-gradient(circle at 30% 40%, ${accent}15 0%, transparent 50%)`,
+							display: 'block',
 						}}
 					/>
-				)}
 
-				{/* Decorative corners */}
-				<div
-					style={{
-						position: 'absolute',
-						top: '20px',
-						left: '20px',
-						width: '80px',
-						height: '80px',
-						borderTop: `1px solid ${accent}40`,
-						borderLeft: `1px solid ${accent}40`,
-					}}
-				/>
-				<div
-					style={{
-						position: 'absolute',
-						bottom: '20px',
-						right: '20px',
-						width: '80px',
-						height: '80px',
-						borderBottom: `1px solid ${accent}40`,
-						borderRight: `1px solid ${accent}40`,
-					}}
-				/>
+					{/* Grid pattern overlay */}
+					{showGrid && (
+						<div
+							style={{
+								position: 'absolute',
+								inset: 0,
+								backgroundImage: `
+									linear-gradient(to right, ${accent}08 1px, transparent 1px),
+									linear-gradient(to bottom, ${accent}08 1px, transparent 1px)
+								`,
+								backgroundSize: '40px 40px',
+								display: 'block',
+							}}
+						/>
+					)}
+
+					{/* Decorative corners */}
+					<div
+						style={{
+							position: 'absolute',
+							top: '20px',
+							left: '20px',
+							width: '80px',
+							height: '80px',
+							borderTop: `1px solid ${accent}40`,
+							borderLeft: `1px solid ${accent}40`,
+							display: 'block',
+						}}
+					/>
+					<div
+						style={{
+							position: 'absolute',
+							bottom: '20px',
+							right: '20px',
+							width: '80px',
+							height: '80px',
+							borderBottom: `1px solid ${accent}40`,
+							borderRight: `1px solid ${accent}40`,
+							display: 'block',
+						}}
+					/>
+
+					{/* Bottom accent line */}
+					<div
+						style={{
+							position: 'absolute',
+							bottom: '60px',
+							left: '50%',
+							transform: 'translateX(-50%)',
+							width: '200px',
+							height: '2px',
+							background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
+							opacity: 0.5,
+							display: 'block',
+						}}
+					/>
+				</div>
 
 				{/* Main content */}
 				<div
 					style={{
 						position: 'relative',
 						zIndex: 1,
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						gap: '24px',
 					}}
 				>
-					{icon && <div style={{ filter: 'drop-shadow(0 0 30px rgba(217,131,36,0.3))' }}>{icon}</div>}
-
 					<div
 						style={{
-							fontWeight: 700,
-							fontSize: '64px',
-							letterSpacing: '-0.02em',
-							textShadow: '0 0 40px rgba(217,131,36,0.2)',
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							gap: '24px',
 						}}
 					>
-						{title}
-					</div>
+						{icon && <div style={{ display: 'none' }}><div style={{ filter: 'drop-shadow(0 0 30px rgba(217,131,36,0.3))', display: 'block' }}>{icon}</div></div>}
 
-					{subtitle && (
-						<div
-							style={{
-								fontSize: '20px',
-								color: '#888888',
-								marginTop: '16px',
-								letterSpacing: '0.01em',
-								textTransform: 'uppercase',
-								fontWeight: 400,
-							}}
-						>
-							{subtitle}
+						<div style={{ display: 'none' }}>
+							<div
+								style={{
+									fontWeight: 700,
+									fontSize: '64px',
+									letterSpacing: '-0.02em',
+									textShadow: '0 0 40px rgba(217,131,36,0.2)',
+								}}
+							>
+								{title}
+							</div>
 						</div>
-					)}
-				</div>
 
-				{/* Bottom accent line */}
-				<div
-					style={{
-						position: 'absolute',
-						bottom: '60px',
-						left: '50%',
-						transform: 'translateX(-50%)',
-						width: '200px',
-						height: '2px',
-						background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
-						opacity: 0.5,
-					}}
-				/>
+						{subtitle && (
+							<div style={{ display: 'none' }}>
+								<div
+									style={{
+										fontSize: '20px',
+										color: '#888888',
+										marginTop: '16px',
+										letterSpacing: '0.01em',
+										textTransform: 'uppercase',
+										fontWeight: 400,
+									}}
+								>
+									{subtitle}
+								</div>
+							</div>
+						)}
+					</div>
+				</div>
 			</div>
 		),
 		size
