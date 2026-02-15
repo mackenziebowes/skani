@@ -33,34 +33,35 @@ const commands = [
     description: "List all installed skills with their versions and sources.",
     example: "skani list",
   },
-  {
-    name: "remove",
-    usage: "skani remove <skill-id>",
-    description:
-      "Remove an installed skill from both filesystem and skani.json.",
-    example: "skani remove omarchy",
-  },
-  {
-    name: "search",
-    usage: "skani search <query>",
-    description:
-      "Search for skills in the central registry by name, description, or tags.",
-    example: "skani search hyprland",
-  },
-  {
-    name: "info",
-    usage: "skani info <skill-id>",
-    description:
-      "Display detailed information about a skill including versions and install command.",
-    example: "skani info omarchy",
-  },
-  {
-    name: "update",
-    usage: "skani update <skill-id>",
-    description: "Update an installed skill to the latest version available.",
-    example: "skani update omarchy",
-  },
-];
+   {
+     name: "update",
+     usage: "skani update <skill-id>",
+     description:
+       "Update an installed skill to the latest version available.",
+     example: "skani update omarchy",
+   },
+   {
+     name: "kit list",
+     usage: "skani kit list",
+     description:
+       "List all available skill kits in current directory.",
+     example: "skani kit list",
+   },
+   {
+     name: "kit install",
+     usage: "skani kit install <name> [--replace]",
+     description:
+       "Install skills from a kit file. Use --replace for clean install.",
+     example: "skani kit install superpowers --replace",
+   },
+   {
+     name: "kit restore",
+     usage: "skani kit restore",
+     description:
+       "Restore skani.json from most recent kit install backup.",
+     example: "skani kit restore",
+   },
+ ];
 
 export default function CLICommandsPage() {
   const jsonLd = {

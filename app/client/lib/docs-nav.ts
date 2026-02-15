@@ -20,6 +20,7 @@ export const docsNavSections: DocsNavSection[] = [
 		title: "Reference",
 		links: [
 			{ label: "CLI Commands", href: "/docs/cli-commands" },
+			{ label: "Skill Kits", href: "/docs/skill-kits" },
 			{ label: "skani.json", href: "/docs/skani-json" },
 		],
 	},
