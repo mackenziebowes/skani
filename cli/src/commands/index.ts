@@ -8,6 +8,7 @@ import { searchCommand } from "./search";
 import { infoCommand } from "./info";
 import { updateCommand } from "./update";
 import { registerKitCommands } from "./kit";
+import { registerRegistryCommands } from "./registry";
 
 export function registerCommands() {
 	registerCommand(initCommand);
@@ -19,4 +20,5 @@ export function registerCommands() {
 	registerCommand(infoCommand);
 	registerCommand(updateCommand);
 	registerKitCommands();
+	registerRegistryCommands();
 }

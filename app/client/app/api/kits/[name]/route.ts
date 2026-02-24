@@ -1,14 +1,12 @@
 import { NextResponse } from "next/server";
-import { MARKETING_SKILLS_FULL_KIT } from "@/lib/data/kits";
-
-const kits = [MARKETING_SKILLS_FULL_KIT];
+import kits from "@/lib/data/kits";
 
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ name: string }> },
 ) {
   const { name } = await params;
-  const kit = kits.find((k) => k.environment.name === name);
+  const kit = Object.values(kits).find((k) => k.environment.name === name);
 
   if (!kit) {
     return NextResponse.json({ error: "Kit not found" }, { status: 404 });

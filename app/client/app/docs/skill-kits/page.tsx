@@ -15,8 +15,7 @@ const kitCommands = [
     usage: "skani kit install <name> [--replace]",
     description:
       "Install skills from a kit file. Use --replace to clear existing skills first.",
-    example:
-      "skani kit install superpowers --replace",
+    example: "skani kit install superpowers --replace",
   },
   {
     name: "kit restore",
@@ -29,18 +28,19 @@ const kitCommands = [
 
 export default function SkillKitsPage() {
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'TechArticle',
-    name: 'Skill Kits - Skani',
-    description: 'Documentation for Skani skill kits - shareable skill bundles for rapid installation',
-  }
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    name: "Skill Kits - Skani",
+    description:
+      "Documentation for Skani skill kits - shareable skill bundles for rapid installation",
+  };
 
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
       />
 
@@ -65,28 +65,47 @@ export default function SkillKitsPage() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Overview</h2>
             <p className="text-gray-300 mb-4">
-              Skill kits are shareable <code className="bg-muted px-2 py-1 rounded">.skani.json</code> files that allow you to rapidly install a curated set of skills. Instead of installing skills individually, you can share kits with your team to bootstrap development environments consistently.
+              Skill kits are shareable{" "}
+              <code className="bg-muted px-2 py-1 rounded">.skani.json</code>{" "}
+              files that allow you to rapidly install a curated set of skills.
+              Instead of installing skills individually, you can share kits with
+              your team to bootstrap development environments consistently.
             </p>
             <p className="text-gray-300 mb-4">
-              Kits use the same format as <code className="bg-muted px-2 py-1 rounded">skani.json</code>, but are saved with a <code className="bg-muted px-2 py-1 rounded">.skani.json</code> extension to distinguish them as sharable bundles.
+              Kits use the same format as{" "}
+              <code className="bg-muted px-2 py-1 rounded">skani.json</code>,
+              but are saved with a{" "}
+              <code className="bg-muted px-2 py-1 rounded">.skani.json</code>{" "}
+              extension to distinguish them as sharable bundles.
             </p>
           </div>
 
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Creating a Kit</h2>
             <p className="text-gray-300 mb-4">
-              To create a skill kit, simply copy your existing <code className="bg-muted px-2 py-1 rounded">skani.json</code> file to a new file with a <code className="bg-muted px-2 py-1 rounded">.skani.json</code> extension:
+              To create a skill kit, simply copy your existing{" "}
+              <code className="bg-muted px-2 py-1 rounded">skani.json</code>{" "}
+              file to a new file with a{" "}
+              <code className="bg-muted px-2 py-1 rounded">.skani.json</code>{" "}
+              extension:
             </p>
-            <CodeBlock code="cp skani.json my-kit.skani.json" showDots={false} />
+            <CodeBlock
+              code="cp skani.json my-kit.skani.json"
+              showDots={false}
+            />
             <p className="text-gray-300 mb-4 mt-4">
-              Share the <code className="bg-muted px-2 py-1 rounded">.skani.json</code> file with your team or include it in your project repository.
+              Share the{" "}
+              <code className="bg-muted px-2 py-1 rounded">.skani.json</code>{" "}
+              file with your team or include it in your project repository.
             </p>
           </div>
 
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Installing a Kit</h2>
             <p className="text-gray-300 mb-4">
-              Use the <code className="bg-muted px-2 py-1 rounded">kit install</code> command to install skills from a kit:
+              Use the{" "}
+              <code className="bg-muted px-2 py-1 rounded">kit install</code>{" "}
+              command to install skills from a kit:
             </p>
 
             <div className="space-y-6">
@@ -114,24 +133,40 @@ export default function SkillKitsPage() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Installation Modes</h2>
             <p className="text-gray-300 mb-4">
-              The <code className="bg-muted px-2 py-1 rounded">kit install</code> command supports two installation modes:
+              The{" "}
+              <code className="bg-muted px-2 py-1 rounded">kit install</code>{" "}
+              command supports two installation modes:
             </p>
 
             <div className="space-y-4">
               <div className="border border-gray-800 rounded-lg p-6">
-                <h4 className="text-lg font-semibold mb-2 text-amber-600">Merge Mode (Default)</h4>
+                <h4 className="text-lg font-semibold mb-2 text-amber-600">
+                  Merge Mode (Default)
+                </h4>
                 <p className="text-gray-300 mb-4">
-                  Installs kit skills alongside existing ones. Skills with the same ID are skipped to prevent duplicates.
+                  Installs kit skills alongside existing ones. Skills with the
+                  same ID are skipped to prevent duplicates.
                 </p>
                 <CodeBlock code="skani kit install my-kit" showDots={false} />
               </div>
 
               <div className="border border-gray-800 rounded-lg p-6">
-                <h4 className="text-lg font-semibold mb-2 text-amber-600">Replace Mode</h4>
+                <h4 className="text-lg font-semibold mb-2 text-amber-600">
+                  Replace Mode
+                </h4>
                 <p className="text-gray-300 mb-4">
-                  Clears all existing skills, backs up your <code className="bg-muted px-2 py-1 rounded">skani.json</code> to <code className="bg-muted px-2 py-1 rounded">previous.skani.json</code>, then installs the kit. Use this for a clean slate.
+                  Clears all existing skills, backs up your{" "}
+                  <code className="bg-muted px-2 py-1 rounded">skani.json</code>{" "}
+                  to{" "}
+                  <code className="bg-muted px-2 py-1 rounded">
+                    previous.skani.json
+                  </code>
+                  , then installs the kit. Use this for a clean slate.
                 </p>
-                <CodeBlock code="skani kit install my-kit --replace" showDots={false} />
+                <CodeBlock
+                  code="skani kit install my-kit --replace"
+                  showDots={false}
+                />
               </div>
             </div>
           </div>
@@ -139,23 +174,33 @@ export default function SkillKitsPage() {
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Backup & Restore</h2>
             <p className="text-gray-300 mb-4">
-              When using replace mode, your current <code className="bg-muted px-2 py-1 rounded">skani.json</code> is automatically backed up to <code className="bg-muted px-2 py-1 rounded">previous.skani.json</code>. You can restore your previous setup at any time:
+              When using replace mode, your current{" "}
+              <code className="bg-muted px-2 py-1 rounded">skani.json</code> is
+              automatically backed up to{" "}
+              <code className="bg-muted px-2 py-1 rounded">
+                previous.skani.json
+              </code>
+              . You can restore your previous setup at any time:
             </p>
             <CodeBlock code="skani kit restore" showDots={false} />
             <p className="text-gray-300 mt-4 text-sm">
-              Note: Restore only works if a backup exists from a previous kit install with <code className="bg-muted px-2 py-1 rounded">--replace</code>.
+              Note: Restore only works if a backup exists from a previous kit
+              install with{" "}
+              <code className="bg-muted px-2 py-1 rounded">--replace</code>.
             </p>
           </div>
 
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Example Kit</h2>
             <p className="text-gray-300 mb-4">
-              Here's an example of what a <code className="bg-muted px-2 py-1 rounded">.skani.json</code> kit file looks like:
+              Here&apos;s an example of what a{" "}
+              <code className="bg-muted px-2 py-1 rounded">.skani.json</code>{" "}
+              kit file looks like:
             </p>
             <div className="border border-gray-800 rounded-lg p-6">
               <pre className="text-sm overflow-x-auto">
                 <code className="text-gray-300">
-{`{
+                  {`{
   "version": "1.0.0",
   "environment": {
     "name": "my-project",

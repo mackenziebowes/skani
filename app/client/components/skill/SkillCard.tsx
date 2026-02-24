@@ -7,7 +7,7 @@ interface SkillCardProps {
 
 export function SkillCard({ skill }: SkillCardProps) {
 	return (
-		<Link href={`/skills/${skill.id}`}>
+		<Link href={`/registry/skills/${skill.id}`}>
 			<div className="group rounded-lg border bg-card p-6 hover:border-primary transition-colors">
 				<div className="flex items-start justify-between mb-3">
 					<h3 className="text-lg font-semibold group-hover:text-primary">{skill.name}</h3>

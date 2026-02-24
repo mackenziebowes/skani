@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
-import { MARKETING_SKILLS_FULL_KIT } from "@/lib/data/kits";
-
-const kits = [MARKETING_SKILLS_FULL_KIT];
+import kits from "@/lib/data/kits";
 
 export async function GET() {
-  const kitList = kits.map((kit) => ({
+  const kitList = Object.values(kits).map((kit) => ({
     name: kit.environment.name,
     version: kit.version,
     created: kit.environment.created,
