@@ -42,15 +42,16 @@ export async function runCLI(argv = Bun.argv.slice(2)) {
       }
       grouped.get(cmd.name)!.push(cmd);
     }
-    
+
     // Display commands
     for (const [name, cmds] of grouped) {
       const mainCmd = cmds[0];
+      if (!mainCmd) continue;
       if (mainCmd.subcommand) {
         // Group of subcommands
         multiLog.push({
           t: name,
-          m: `${cmds.length} subcommand(s) available\n${cmds.map((c, i) => `  |->  [${c.subcommand}]: ${c.description}`).join('\n')}\n`,
+          m: `${cmds.length} subcommand(s) available\n${cmds.map((c, i) => `  |->  [${c.subcommand}]: ${c.description}`).join("\n")}\n`,
         });
       } else {
         // Simple command
@@ -86,17 +87,17 @@ export async function runCLI(argv = Bun.argv.slice(2)) {
   }
 
   let command: Command | undefined;
-  
+
   // Try to find by exact match first (for simple commands like "install")
   command = commands.get(name);
-  
+
   // If not found and we have args, try subcommand lookup (for "kit list")
   if (!command && args.length > 0) {
     const subcommand = args[0];
     const subcommandKey = `${name}:${subcommand}`;
     command = commands.get(subcommandKey);
   }
-  
+
   if (!command) {
     log.single.err("Command", "No Command Supplied");
     process.exit(1);
