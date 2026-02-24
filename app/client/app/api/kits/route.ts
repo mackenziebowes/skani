@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { MARKETING_SKILLS_FULL_KIT } from "@/data/kits";
+import { MARKETING_SKILLS_FULL_KIT } from "@/lib/data/kits";
 
 const kits = [MARKETING_SKILLS_FULL_KIT];
 
