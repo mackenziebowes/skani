@@ -192,7 +192,7 @@ export function parseSkillRef(input: string): ParsedSkillRef | null {
 	
 	const pathSegments = finalPath.split("/");
 	const lastSegment = pathSegments[pathSegments.length - 1]!;
-	const skillId = `${owner}-${repo}-${lastSegment}`.toLowerCase();
+	const skillId = lastSegment.toLowerCase();
 	
 	const normalizedUrl = `https://github.com/${owner}/${repo}/tree/${ref}/${finalPath}`;
 	

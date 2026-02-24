@@ -11,7 +11,7 @@ describe("parseSkillRef", () => {
 			expect(result!.repo).toBe("repo");
 			expect(result!.ref).toBe("main");
 			expect(result!.path).toBe(".claude/skills/foo");
-			expect(result!.skillId).toBe("owner-repo-foo");
+			expect(result!.skillId).toBe("foo");
 			expect(result!.url).toBe("https://github.com/owner/repo/tree/main/.claude/skills/foo");
 		});
 
@@ -21,7 +21,7 @@ describe("parseSkillRef", () => {
 			expect(result).not.toBeNull();
 			expect(result!.ref).toBe("v1.2.0");
 			expect(result!.path).toBe("skills/bar");
-			expect(result!.skillId).toBe("owner-repo-bar");
+			expect(result!.skillId).toBe("bar");
 		});
 
 		test("parses blob URL and extracts directory", () => {
@@ -29,7 +29,7 @@ describe("parseSkillRef", () => {
 			
 			expect(result).not.toBeNull();
 			expect(result!.path).toBe("skills/baz");
-			expect(result!.skillId).toBe("owner-repo-baz");
+			expect(result!.skillId).toBe("baz");
 		});
 
 		test("parses URL with @version override", () => {
@@ -52,7 +52,7 @@ describe("parseSkillRef", () => {
 			expect(result).not.toBeNull();
 			expect(result!.owner).toBe("my-org");
 			expect(result!.repo).toBe("my-awesome-repo");
-			expect(result!.skillId).toBe("my-org-my-awesome-repo-my-cool-skill");
+			expect(result!.skillId).toBe("my-cool-skill");
 		});
 	});
 
@@ -99,31 +99,31 @@ describe("parseSkillRef", () => {
 			const result = parseSkillRef("https://github.com/MyOrg/MyRepo/tree/main/skills/MySkill");
 			
 			expect(result).not.toBeNull();
-			expect(result!.skillId).toBe("myorg-myrepo-myskill");
+			expect(result!.skillId).toBe("myskill");
 		});
 
 		test("includes final path segment in skillId", () => {
 			const result = parseSkillRef("https://github.com/vercel/skills/tree/main/.claude/skills/react");
 			
 			expect(result).not.toBeNull();
-			expect(result!.skillId).toBe("vercel-skills-react");
+			expect(result!.skillId).toBe("react");
 		});
 
-		test("different repos with same skill name get different IDs", () => {
+		test("different repos with same skill name get same folder name", () => {
 			const result1 = parseSkillRef("https://github.com/vercel/skills/tree/main/.claude/skills/react");
 			const result2 = parseSkillRef("https://github.com/facebook/skills/tree/main/.claude/skills/react");
 			
-			expect(result1!.skillId).toBe("vercel-skills-react");
-			expect(result2!.skillId).toBe("facebook-skills-react");
-			expect(result1!.skillId).not.toBe(result2!.skillId);
+			expect(result1!.skillId).toBe("react");
+			expect(result2!.skillId).toBe("react");
+			expect(result1!.skillId).toBe(result2!.skillId);
 		});
 
 		test("same repo with different skills get different IDs", () => {
 			const result1 = parseSkillRef("https://github.com/vercel/skills/tree/main/.claude/skills/react");
 			const result2 = parseSkillRef("https://github.com/vercel/skills/tree/main/.claude/skills/nextjs");
 			
-			expect(result1!.skillId).toBe("vercel-skills-react");
-			expect(result2!.skillId).toBe("vercel-skills-nextjs");
+			expect(result1!.skillId).toBe("react");
+			expect(result2!.skillId).toBe("nextjs");
 			expect(result1!.skillId).not.toBe(result2!.skillId);
 		});
 	});
