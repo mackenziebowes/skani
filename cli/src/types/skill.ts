@@ -1,10 +1,11 @@
 export interface SkillSource {
 	url: string;
-	type: "github";
+	type: "github" | "registry";
 	owner: string;
 	repo: string;
 	ref: string;
 	path: string;
+	mirrored?: boolean;
 }
 
 export interface InstalledSkill {

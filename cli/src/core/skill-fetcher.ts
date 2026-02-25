@@ -1,6 +1,7 @@
 import { join } from "node:path";
 import type { InstalledSkill, SkillSource } from "../types/skill";
 import { fetchSkillFiles, checkSkillExists } from "./github";
+import { fetchSkillFilesFromRegistry } from "./registry-fetcher";
 
 const DEFAULT_SKILLS_DIR = ".claude/skills";
 
@@ -12,14 +13,28 @@ export async function installSkillFiles(
 	source: SkillSource,
 	skillId: string,
 	cwd: string = process.cwd()
-): Promise<{ success: boolean; filesWritten: number; error?: string }> {
-	const exists = await checkSkillExists(source);
-	if (!exists) {
-		return { success: false, filesWritten: 0, error: "Skill not found at specified path" };
+): Promise<{ success: boolean; filesWritten: number; error?: string; source: "registry" | "github" }> {
+	const skillDir = getSkillInstallPath(skillId, cwd);
+	
+	let files: Map<string, string> | null = null;
+	let usedSource: "registry" | "github" = "github";
+	
+	if (source.mirrored !== false) {
+		files = await fetchSkillFilesFromRegistry(skillId);
+		if (files) {
+			usedSource = "registry";
+		}
 	}
 	
-	const files = await fetchSkillFiles(source);
-	const skillDir = getSkillInstallPath(skillId, cwd);
+	if (!files) {
+		const exists = await checkSkillExists(source);
+		if (!exists) {
+			return { success: false, filesWritten: 0, error: "Skill not found at specified path", source: "github" };
+		}
+		
+		files = await fetchSkillFiles(source);
+		usedSource = "github";
+	}
 	
 	let filesWritten = 0;
 	
@@ -29,7 +44,7 @@ export async function installSkillFiles(
 		filesWritten++;
 	}
 	
-	return { success: true, filesWritten };
+	return { success: true, filesWritten, source: usedSource };
 }
 
 export async function uninstallSkillFiles(

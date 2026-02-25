@@ -49,6 +49,8 @@ export const registryInstallCommand: Command = {
 
     let successCount = 0;
     let failCount = 0;
+    let registryCount = 0;
+    let githubCount = 0;
 
     for (const skill of kitData.skills) {
       log.single.info("INSTALL", `Installing ${skill.id}...`);
@@ -57,6 +59,11 @@ export const registryInstallCommand: Command = {
 
       if (result.success) {
         successCount++;
+        if (result.source === "registry") {
+          registryCount++;
+        } else {
+          githubCount++;
+        }
       } else {
         log.single.err("FAILED", `${skill.id}: ${result.error}`);
         failCount++;
@@ -81,6 +88,8 @@ export const registryInstallCommand: Command = {
 
     log.multi.info([
       { t: "REGISTRY COMPLETE", m: `Installed ${successCount} skill(s)` },
+      ...(registryCount > 0 ? [{ t: "MIRRORED", m: `${registryCount} from registry` }] : []),
+      ...(githubCount > 0 ? [{ t: "GITHUB", m: `${githubCount} from GitHub` }] : []),
       ...(failCount > 0 ? [{ t: "FAILED", m: `${failCount} skill(s) failed` }] : []),
     ]);
   },
