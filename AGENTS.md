@@ -10,19 +10,18 @@ skani/
 │   └── src/
 │       ├── index.ts    # Entry point
 │       ├── commands/   # CLI commands
-│       ├── core/       # Core utilities (github, file handling, logging)
+│       │   ├── kit/    # Kit commands (list, install, restore)
+│       │   └── registry/ # Registry commands (list, install, mirror)
+│       ├── core/       # Core utilities (github, registry-fetcher, file handling, logging)
 │       └── types/      # TypeScript types
 │
-├── app/                 # Full-stack Next.js + Hono app
-│   ├── client/         # Next.js 16 frontend
-│   │   ├── app/        # App Router pages
-│   │   ├── components/ # React components (ShadCN UI + Custom Layout + Docs)
-│   │   └── lib/        # Utilities and API clients
-│   │
-│   └── server/         # Hono/Bun backend
-│       └── src/
-│           ├── routes/ # API routes
-│           └── data/   # Mock data (skills)
+├── app/                 # Full-stack Next.js app
+│   └── client/         # Next.js frontend
+│       ├── app/        # App Router pages + API routes
+│       │   └── api/    # API endpoints (skills, kits)
+│       ├── components/ # React components (ShadCN UI + Custom Layout + Docs)
+│       └── lib/        # Utilities, API clients, and data
+│           └── data/   # Kits and mirrored skills data
 │
 └── basic_idea.md       # Project overview
 ```
@@ -38,14 +37,9 @@ bun run dev --help           # Show help
 bun run dev init my-project  # Initialize skani.json
 bun run dev install owner/repo  # Install a skill
 bun run dev list             # List installed skills
-```
-
-### App Server (app/server)
-
-```bash
-cd app/server
-bun install
-bun run dev  # Starts on port 3050
+bun run dev registry list    # List available kits
+bun run dev registry install <kit-name>  # Install a kit from registry
+bun run dev registry mirror <kit-name>   # Mirror skill files to local data
 ```
 
 ### App Client (app/client)
@@ -62,6 +56,46 @@ bun run dev  # Starts on port 3000
 - `GET /api/skills` - List all skills
 - `GET /api/skills/search?q=<query>` - Search skills
 - `GET /api/skills/:id` - Get skill details
+- `GET /api/skills/:id/files` - Get mirrored skill files (avoids GitHub rate limits)
+- `GET /api/kits` - List available kits
+- `GET /api/kits/:name` - Get kit details
+
+## Mirrored Skills
+
+To avoid GitHub rate limits when installing large kits, skills can be mirrored in the registry.
+
+### Structure
+
+```
+app/client/lib/data/
+├── kits/                    # Kit definitions
+│   ├── index.ts            # Exports all kits
+│   ├── obra-superpowers-full.ts
+│   └── marketing-skills-full.ts
+│
+└── mirrored-skills/         # Mirrored skill files
+    ├── index.ts            # Exports mirrored skills
+    ├── types.ts            # TypeScript types
+    └── *.json              # Skill files by kit
+```
+
+### Adding Mirrored Skills
+
+1. Run the mirror command from project root:
+   ```bash
+   cd cli && bun run dev registry mirror <kit-name>
+   ```
+
+2. This creates `app/client/lib/data/mirrored-skills/<kit-name>.json`
+
+3. Update `app/client/lib/data/mirrored-skills/index.ts` to import the new file
+
+### How It Works
+
+- CLI first tries to fetch skill files from `/api/skills/:id/files`
+- If mirrored files exist, they're served directly (no GitHub API calls)
+- Falls back to GitHub if files aren't mirrored
+- Install output shows source: "MIRRORED" or "GITHUB"
 
 ## Theme System
 
@@ -156,10 +190,10 @@ export default function DocsPage() {
 - The CLI uses Bun's built-in file API (`Bun.file`, `Bun.write`)
 - Skills are installed to `.claude/skills/<skill-id>/` in the target project
 - The `skani.json` file tracks installed skills with pinned versions
-- The website currently uses mock data; GitHub integration can be added later
 - Custom amber theme defined in `app/client/app/globals.css`
 - Landing page at `/landing` showcases full component library
 - Docs pages use new extracted components with fossil/preservation design language
+- Large kits use mirrored skills from `/api/skills/:id/files` to avoid GitHub rate limits
 
 ## Agent Rules
 
@@ -176,7 +210,4 @@ cd cli && bun test && bun lint && bun build
 
 # App Client
 cd app/client && bun test && bun lint && bun run build
-
-# App Server
-cd app/server && bun test && bun lint && bun build
 ```
