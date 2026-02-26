@@ -9,7 +9,9 @@ export async function listKits(cwd: string = process.cwd()): Promise<string[]> {
 export async function backupSkaniFile(cwd: string = process.cwd()): Promise<void> {
   const skaniPath = join(cwd, 'skani.json');
   const backupPath = join(cwd, 'previous.skani.json');
-  const content = await Bun.file(skaniPath).text();
+  const file = Bun.file(skaniPath);
+  if (!(await file.exists())) return;
+  const content = await file.text();
   await Bun.write(backupPath, content);
 }
 
@@ -22,9 +24,13 @@ export async function restoreFromBackup(cwd: string = process.cwd()): Promise<vo
 
 export async function clearSkillsDir(cwd: string = process.cwd()): Promise<void> {
   const skillsDir = join(cwd, '.claude', 'skills');
-  const entries = await readdir(skillsDir, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = join(skillsDir, entry.name);
-    await Bun.$`rm -rf ${fullPath}`;
+  try {
+    const entries = await readdir(skillsDir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = join(skillsDir, entry.name);
+      await Bun.$`rm -rf ${fullPath}`;
+    }
+  } catch {
+    // Directory doesn't exist, nothing to clear
   }
 }
