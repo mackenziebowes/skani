@@ -1,10 +1,14 @@
 import { Terminal } from "./Terminal";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 interface TerminalSectionProps {
 	heading: string;
 	subtitle?: string;
 	command: string;
 	output: string[];
+	ctaText?: string;
+	ctaHref?: string;
 }
 
 export function TerminalSection({
@@ -12,6 +16,8 @@ export function TerminalSection({
 	subtitle,
 	command,
 	output,
+	ctaText,
+	ctaHref,
 }: TerminalSectionProps) {
 	return (
 		<section className="py-20 lg:py-[120px] bg-[#0a0a0a] border-t border-b border-border text-center">
@@ -21,6 +27,16 @@ export function TerminalSection({
 					<p className="text-muted-foreground mt-4">{subtitle}</p>
 			)}
 				<Terminal command={command} output={output} />
+				{ctaText && ctaHref && (
+					<div className="mt-8">
+						<Button asChild variant="outline">
+							<a href={ctaHref}>
+								{ctaText}
+								<ArrowRight className="h-4 w-4" />
+							</a>
+						</Button>
+					</div>
+				)}
 			</div>
 		</section>
 	);

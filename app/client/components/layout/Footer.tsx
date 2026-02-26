@@ -12,7 +12,10 @@ export function Footer() {
             <Link href="/docs" className="hover:text-foreground py-1 md:py-0">
               Documentation
             </Link>
-            <Link href="/skills" className="hover:text-foreground py-1 md:py-0">
+            <Link
+              href="/registry"
+              className="hover:text-foreground py-1 md:py-0"
+            >
               Skills
             </Link>
             <a

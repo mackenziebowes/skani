@@ -1,8 +1,6 @@
 "use client";
 
 import { Header } from "@/components/layout/Header";
-import { DocsNav } from "@/components/docs/DocsNav";
-import { docsNavSections } from "@/lib/docs-nav";
 import { LandingFooter as Footer } from "@/components/layout/LandingFooter";
 
 export default function DocsLayout({
@@ -13,10 +11,7 @@ export default function DocsLayout({
   return (
     <div className="flex-1 max-w-[1600px] mx-auto w-full flex flex-col">
       <Header />
-      <div className="flex flex-1">
-        <DocsNav sections={docsNavSections} />
-        {children}
-      </div>
+      {children}
       <Footer />
     </div>
   );

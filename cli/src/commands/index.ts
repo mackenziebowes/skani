@@ -9,6 +9,7 @@ import { infoCommand } from "./info";
 import { updateCommand } from "./update";
 import { registerKitCommands } from "./kit";
 import { registerRegistryCommands } from "./registry";
+import { cacheCommands } from "./cache";
 
 export function registerCommands() {
 	registerCommand(initCommand);
@@ -21,4 +22,8 @@ export function registerCommands() {
 	registerCommand(updateCommand);
 	registerKitCommands();
 	registerRegistryCommands();
+	
+	for (const cmd of cacheCommands) {
+		registerCommand(cmd);
+	}
 }

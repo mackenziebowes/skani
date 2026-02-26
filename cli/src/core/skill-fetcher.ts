@@ -1,8 +1,14 @@
 import { join } from "node:path";
+import { homedir } from "node:os";
 import type { InstalledSkill, SkillSource } from "../types/skill";
 import { fetchSkillFiles, checkSkillExists } from "./github";
 import { fetchSkillFilesFromRegistry } from "./registry-fetcher";
+import { isSkillCached, cacheSkill, getSkillCachePath } from "./cache";
+import { createSymlinksForSkill, removeSymlinks } from "./symlink";
 
+// TODO: Multi-environment support - make this configurable for different agents
+// (e.g., .opencode/skills/, .aider/skills/)
+// See docs/plans/2026-02-26-global-cache-symlinks-design.md
 const DEFAULT_SKILLS_DIR = ".claude/skills";
 
 export function getSkillInstallPath(skillId: string, cwd: string = process.cwd()): string {
@@ -12,9 +18,22 @@ export function getSkillInstallPath(skillId: string, cwd: string = process.cwd()
 export async function installSkillFiles(
 	source: SkillSource,
 	skillId: string,
-	cwd: string = process.cwd()
-): Promise<{ success: boolean; filesWritten: number; error?: string; source: "registry" | "github" }> {
+	cwd: string = process.cwd(),
+	options: { refresh?: boolean } = {}
+): Promise<{ success: boolean; filesWritten: number; error?: string; source: "registry" | "github" | "cache" }> {
 	const skillDir = getSkillInstallPath(skillId, cwd);
+	const { refresh = false } = options;
+	
+	const cached = await isSkillCached(skillId);
+	
+	if (!refresh && cached) {
+		await removeSymlinks(skillDir);
+		const filesWritten = await createSymlinksForSkill(
+			getSkillCachePath(skillId),
+			skillDir
+		);
+		return { success: true, filesWritten, source: "cache" };
+	}
 	
 	let files: Map<string, string> | null = null;
 	let usedSource: "registry" | "github" = "github";
@@ -36,13 +55,13 @@ export async function installSkillFiles(
 		usedSource = "github";
 	}
 	
-	let filesWritten = 0;
+	await cacheSkill(skillId, files);
 	
-	for (const [relativePath, content] of files) {
-		const filePath = join(skillDir, relativePath);
-		await Bun.write(filePath, content);
-		filesWritten++;
-	}
+	await removeSymlinks(skillDir);
+	const filesWritten = await createSymlinksForSkill(
+		getSkillCachePath(skillId),
+		skillDir
+	);
 	
 	return { success: true, filesWritten, source: usedSource };
 }

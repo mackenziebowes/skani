@@ -10,10 +10,11 @@ export const registryInstallCommand: Command = {
   name: "registry",
   subcommand: "install",
   description: "Install a kit from the remote registry",
-  instructions: "Usage: skani registry install <name> [--replace]",
+  instructions: "Usage: skani registry install <name> [--replace] [--refresh]",
   run: async (args: string[]) => {
-    const kitName = args[0];
+    const kitName = args.find((a) => !a.startsWith("--"));
     const replaceFlag = args.includes("--replace");
+    const refreshFlag = args.includes("--refresh");
 
     if (!kitName) {
       log.single.err("REGISTRY INSTALL", "No kit specified");
@@ -49,17 +50,20 @@ export const registryInstallCommand: Command = {
 
     let successCount = 0;
     let failCount = 0;
+    let cacheCount = 0;
     let registryCount = 0;
     let githubCount = 0;
 
     for (const skill of kitData.skills) {
       log.single.info("INSTALL", `Installing ${skill.id}...`);
 
-      const result = await installSkillFiles(skill.source, skill.id);
+      const result = await installSkillFiles(skill.source, skill.id, process.cwd(), { refresh: refreshFlag });
 
       if (result.success) {
         successCount++;
-        if (result.source === "registry") {
+        if (result.source === "cache") {
+          cacheCount++;
+        } else if (result.source === "registry") {
           registryCount++;
         } else {
           githubCount++;
@@ -88,6 +92,7 @@ export const registryInstallCommand: Command = {
 
     log.multi.info([
       { t: "REGISTRY COMPLETE", m: `Installed ${successCount} skill(s)` },
+      ...(cacheCount > 0 ? [{ t: "CACHE", m: `${cacheCount} from cache` }] : []),
       ...(registryCount > 0 ? [{ t: "MIRRORED", m: `${registryCount} from registry` }] : []),
       ...(githubCount > 0 ? [{ t: "GITHUB", m: `${githubCount} from GitHub` }] : []),
       ...(failCount > 0 ? [{ t: "FAILED", m: `${failCount} skill(s) failed` }] : []),

@@ -8,13 +8,14 @@ import log from "../core/log";
 export const installCommand: Command = {
 	name: "install",
 	description: "Install a skill from GitHub",
-	instructions: "Usage: skani install https://github.com/owner/repo/tree/branch/path/to/skill",
+	instructions: "Usage: skani install https://github.com/owner/repo/tree/branch/path/to/skill [--refresh]",
 	run: async (args: string[]) => {
-		const skillRef = args[0];
+		const refreshFlag = args.includes("--refresh");
+		const skillRef = args.find(a => !a.startsWith("--"));
 		
 		if (!skillRef) {
 			log.single.err("INSTALL", "No skill specified");
-			log.single.info("USAGE", "skani install https://github.com/owner/repo/tree/branch/path/to/skill");
+			log.single.info("USAGE", "skani install https://github.com/owner/repo/tree/branch/path/to/skill [--refresh]");
 			process.exit(1);
 		}
 		
@@ -66,7 +67,7 @@ export const installCommand: Command = {
 		
 		log.single.info("INSTALL", `Installing skill to ${getSkillInstallPath(skillId)}...`);
 		
-		const result = await installSkillFiles(source, skillId);
+		const result = await installSkillFiles(source, skillId, process.cwd(), { refresh: refreshFlag });
 		
 		if (!result.success) {
 			log.single.err("INSTALL", result.error || "Failed to install skill");

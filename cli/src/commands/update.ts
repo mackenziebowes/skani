@@ -68,7 +68,7 @@ export const updateCommand: Command = {
 			{ ...skill.source, ref: latestVersion }
 		);
 		
-		const result = await installSkillFiles(updatedSkill.source, skill.id);
+		const result = await installSkillFiles(updatedSkill.source, skill.id, process.cwd(), { refresh: true });
 		
 		if (!result.success) {
 			log.single.err("UPDATE", result.error || "Failed to update skill");
