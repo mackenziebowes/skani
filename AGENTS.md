@@ -10,9 +10,10 @@ skani/
 │   └── src/
 │       ├── index.ts    # Entry point
 │       ├── commands/   # CLI commands
+│       │   ├── cache/  # Cache commands (list, clean)
 │       │   ├── kit/    # Kit commands (list, install, restore)
 │       │   └── registry/ # Registry commands (list, install, mirror)
-│       ├── core/       # Core utilities (github, registry-fetcher, file handling, logging)
+│       ├── core/       # Core utilities (github, registry-fetcher, cache, symlink, logging)
 │       └── types/      # TypeScript types
 │
 ├── app/                 # Full-stack Next.js app
@@ -36,11 +37,26 @@ bun install
 bun run dev --help           # Show help
 bun run dev init my-project  # Initialize skani.json
 bun run dev install owner/repo  # Install a skill
+bun run dev install owner/repo --refresh  # Force re-download (bypass cache)
 bun run dev list             # List installed skills
 bun run dev registry list    # List available kits
 bun run dev registry install <kit-name>  # Install a kit from registry
 bun run dev registry mirror <kit-name>   # Mirror skill files to local data
+bun run dev cache list       # Show cached skills with sizes
+bun run dev cache clean      # Clear global cache
 ```
+
+### Global Cache
+
+Skills are cached at `~/.skani/registry/skill/<id>/`. When installing:
+- If cached, file-level symlinks are created in `.claude/skills/<id>/` (no network call)
+- Use `--refresh` to force re-download from remote
+
+**Cache commands:**
+- `skani cache list` - Show cached skills with sizes
+- `skani cache clean` - Clear entire cache
+
+**Future:** Windows support will fall back to file copying instead of symlinks.
 
 ### App Client (app/client)
 
@@ -188,7 +204,8 @@ export default function DocsPage() {
 ## Development Notes
 
 - The CLI uses Bun's built-in file API (`Bun.file`, `Bun.write`)
-- Skills are installed to `.claude/skills/<skill-id>/` in the target project
+- Skills are cached globally at `~/.skani/registry/skill/<id>/`
+- Projects use file-level symlinks in `.claude/skills/<skill-id>/` pointing to cache
 - The `skani.json` file tracks installed skills with pinned versions
 - Custom amber theme defined in `app/client/app/globals.css`
 - Landing page at `/landing` showcases full component library
