@@ -87,13 +87,21 @@ Created skani.json manifest"
             <Step number="02" title="Install a Skill">
               <p className="text-gray-400 font-light mb-6 max-w-xl">
                 Install skills directly from GitHub by providing the full URL
-                to the skill directory.
+                to the skill directory. Skills are cached globally at{" "}
+                <code className="text-xs border border-gray-700 bg-gray-900 px-1.5 py-0.5 rounded text-gray-300">
+                  ~/.skani
+                </code>{" "}
+                for fast re-installs across projects.
               </p>
 
               <CodeBlock
                 code="npx skani install https://github.com/obra/superpowers/tree/main/skills/test-driven-development"
                 showDots={false}
               />
+              
+              <p className="text-gray-500 text-sm mt-4">
+                Use <code className="text-xs border border-gray-700 bg-gray-900 px-1.5 py-0.5 rounded text-gray-300">--refresh</code> to force re-download from GitHub.
+              </p>
             </Step>
 
             <Step number="03" title="List Installed Skills">

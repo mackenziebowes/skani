@@ -12,9 +12,9 @@ const commands = [
   },
   {
     name: "install",
-    usage: "skani install <GitHub URL>",
+    usage: "skani install <GitHub URL> [--refresh]",
     description:
-      "Install a skill from GitHub using a full URL to skill directory.",
+      "Install a skill from GitHub. Uses global cache if available. Use --refresh to force re-download.",
     example:
       "skani install https://github.com/obra/superpowers/tree/main/skills/test-driven-development",
   },
@@ -35,7 +35,7 @@ const commands = [
     name: "remove",
     usage: "skani remove <skill-id>",
     description:
-      "Remove an installed skill from both filesystem and skani.json.",
+      "Remove an installed skill from the project. Does not remove from global cache.",
     example: "skani remove omarchy",
   },
   {
@@ -56,21 +56,52 @@ const commands = [
     name: "update",
     usage: "skani update <skill-id>",
     description:
-      "Update an installed skill to the latest version available.",
+      "Update an installed skill to the latest version. Always refreshes from remote.",
     example: "skani update omarchy",
   },
+  {
+    name: "registry list",
+    usage: "skani registry list",
+    description:
+      "List all available kits from the remote registry.",
+    example: "skani registry list",
+  },
+  {
+    name: "registry install",
+    usage: "skani registry install <name> [--replace] [--refresh]",
+    description:
+      "Install a kit from the remote registry. Use --replace to clear existing skills, --refresh to force re-download.",
+    example: "skani registry install obra-superpowers-full --replace",
+  },
+  {
+    name: "cache list",
+    usage: "skani cache list",
+    description:
+      "List all skills in the global cache (~/.skani) with their sizes.",
+    example: "skani cache list",
+  },
+  {
+    name: "cache clean",
+    usage: "skani cache clean",
+    description:
+      "Clear the entire global cache. Useful for freeing disk space or forcing fresh downloads.",
+    example: "skani cache clean",
+  },
+];
+
+const kitCommands = [
   {
     name: "kit list",
     usage: "skani kit list",
     description:
-      "List all available kits in current directory.",
+      "List all available local kit files (.skani.json) in current directory.",
     example: "skani kit list",
   },
   {
     name: "kit install",
     usage: "skani kit install <name> [--replace]",
     description:
-      "Install skills from a kit file. Use --replace for clean install.",
+      "Install skills from a local kit file. Use --replace for clean install.",
     example: "skani kit install superpowers --replace",
   },
   {
@@ -116,6 +147,16 @@ export default function CLICommandsPage() {
             </p>
           </div>
 
+          <div className="mb-8 p-6 border border-amber-900/30 rounded-lg bg-amber-950/10">
+            <h2 className="text-lg font-semibold text-amber-500 mb-2">Global Cache</h2>
+            <p className="text-gray-400 text-sm">
+              Skills are cached at <code className="text-xs bg-muted px-1.5 py-0.5 rounded">~/.skani/registry/skill/&lt;id&gt;/</code>.
+              When installing, if a skill is already cached, symlinks are created in your project instead of re-downloading.
+              Use <code className="text-xs bg-muted px-1.5 py-0.5 rounded">--refresh</code> to force a fresh download.
+            </p>
+          </div>
+
+          <h2 className="text-2xl font-semibold mb-4 mt-12">Core Commands</h2>
           <div className="not-prose space-y-6">
             {commands.map((cmd) => (
               <div
@@ -124,9 +165,35 @@ export default function CLICommandsPage() {
                 className="border border-gray-800 rounded-lg p-6"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <h2 className="text-xl font-semibold font-mono">
+                  <h3 className="text-xl font-semibold font-mono">
                     {cmd.name}
-                  </h2>
+                  </h3>
+                  <code className="text-sm bg-muted px-2 py-1 rounded">
+                    {cmd.usage}
+                  </code>
+                </div>
+                <p className="text-gray-400 mb-4">{cmd.description}</p>
+                <CodeBlock code={cmd.example} showDots={false} />
+              </div>
+            ))}
+          </div>
+
+          <h2 className="text-2xl font-semibold mb-4 mt-12">Local Kit Commands</h2>
+          <p className="text-gray-400 mb-4">
+            Work with local <code className="text-xs bg-muted px-1.5 py-0.5 rounded">.skani.json</code> kit files.
+            For remote registry kits, use <code className="text-xs bg-muted px-1.5 py-0.5 rounded">registry install</code>.
+          </p>
+          <div className="not-prose space-y-6">
+            {kitCommands.map((cmd) => (
+              <div
+                key={cmd.name}
+                id={cmd.name}
+                className="border border-gray-800 rounded-lg p-6"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-xl font-semibold font-mono">
+                    {cmd.name}
+                  </h3>
                   <code className="text-sm bg-muted px-2 py-1 rounded">
                     {cmd.usage}
                   </code>
@@ -144,7 +211,7 @@ export default function CLICommandsPage() {
         </article>
       </main>
 
-      <OnThisPage sections={commands.map((cmd) => cmd.name)} />
+      <OnThisPage sections={[...commands.map((cmd) => cmd.name), ...kitCommands.map((cmd) => cmd.name)]} />
     </>
   );
 }
